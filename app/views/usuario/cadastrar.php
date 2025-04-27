@@ -93,7 +93,8 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
     <button type="submit">Cadastrar</button>
 </form>
 
-<a href="/florV2/public/index.php?rota=usuarios">Voltar para Usuários</a>
+<a href="index.php?rota=listar-usuarios" class="btn btn-secondary">Voltar para Usuários</a>
+
 
 </body>
 </html>

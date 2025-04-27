@@ -69,7 +69,10 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
 <h1>Lista de Usuários</h1>
 
 <a href="/florV2/public/index.php?rota=cadastrar_usuario" class="button">Cadastrar Novo Usuário</a>
-<a href="/florV2/public/index.php" class="button">Voltar ao Início</a>
+<a href="index.php?rota=produtos" class="button">Voltar</a>
+<a href="/florV2/public/index.php" class="button">Sair</a>
+
+
 
 <br><br>
 
@@ -91,7 +94,8 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
                 <td><?= htmlspecialchars($usuario['email']); ?></td>
                 <td><?= htmlspecialchars($usuario['tipo']); ?></td>
                 <td class="actions">
-                    <a href="/florV2/public/index.php?rota=deletar_usuario&id=<?= $usuario['id']; ?>" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</a>
+                <a href="index.php?rota=excluir-usuario&id=<?= $usuario['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+
                 </td>
             </tr>
         <?php endforeach; ?>

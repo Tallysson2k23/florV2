@@ -99,6 +99,18 @@ public function salvar()
     exit;
 }
 
+public function excluir()
+{
+    if (isset($_GET['id'])) {
+        $usuarioModel = new Usuario();
+        $id = $_GET['id'];
+        $usuarioModel->excluir($id);
+    }
+
+    header('Location: /florV2/public/index.php?rota=listar-usuarios');
+    exit;
+}
+
  
     
     
