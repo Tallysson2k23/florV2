@@ -3,7 +3,8 @@ require_once __DIR__ . '/../app/controllers/UsuarioController.php';
 require_once __DIR__ . '/../app/controllers/ProdutoController.php';
 require_once __DIR__ . '/../app/controllers/PedidoController.php';
 
-$rota = $_GET['rota'] ?? '';
+//-----------------------------------------
+$rota = $_GET['rota'] ?? 'login';
 
 switch ($rota) {
     case 'login':
@@ -11,21 +12,28 @@ switch ($rota) {
         $controller = new UsuarioController();
         $controller->login();
         break;
-
     case 'logout':
-        session_start();
-        session_destroy();
-        header('Location: index.php?rota=login');
+        require_once __DIR__ . '/../app/controllers/UsuarioController.php';
+        $controller = new UsuarioController();
+        $controller->logout();
         break;
-
     case 'produtos':
-        // Aqui depois podemos criar o ProdutoController certinho
-        require_once __DIR__ . '/../app/views/produtos/listar.php';
+        require_once __DIR__ . '/../app/controllers/ProdutoController.php';
+        $controller = new ProdutoController();
+        $controller->listar();
         break;
-
+    case 'criar_produto':
+        require_once __DIR__ . '/../app/controllers/ProdutoController.php';
+        $controller = new ProdutoController();
+        $controller->criar();
+        break;
+    case 'deletar_produto':
+        require_once __DIR__ . '/../app/controllers/ProdutoController.php';
+        $controller = new ProdutoController();
+        $controller->deletar();
+        break;
     default:
-        // Redireciona para login se não achar nenhuma rota
-        header('Location: index.php?rota=login');
+        echo "Página não encontrada.";
         break;
 }
 ?>
