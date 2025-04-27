@@ -1,12 +1,18 @@
 <?php
 require_once '../config/database.php';
+require_once '../config/routes.php';
 
-$db = new Database();
-$conn = $db->connect();
+$route = $_GET['route'] ?? 'login'; // Rota padrão é login se não passar nenhuma
 
-if ($conn) {
-    echo "✅ Conexão com banco de dados feita com sucesso!";
+if (isset($routes[$route])) {
+    $controllerName = $routes[$route]['controller'];
+    $actionName = $routes[$route]['action'];
+
+    require_once '../app/controllers/' . $controllerName . '.php';
+
+    $controller = new $controllerName();
+    $controller->$actionName();
 } else {
-    echo "❌ Falha na conexão com banco de dados!";
+    echo "Página não encontrada.";
 }
 ?>
