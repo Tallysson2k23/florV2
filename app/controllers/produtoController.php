@@ -6,7 +6,7 @@ class ProdutoController {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        
+
         if (!isset($_SESSION['usuario_id'])) {
             header('Location: /florV2/public/index.php?rota=login');
             exit;
@@ -21,7 +21,7 @@ class ProdutoController {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        
+
         if (!isset($_SESSION['usuario_id'])) {
             header('Location: /florV2/public/index.php?rota=login');
             exit;
@@ -43,7 +43,10 @@ class ProdutoController {
     }
 
     public function deletar() {
-        session_start();
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
         if (!isset($_SESSION['usuario_id'])) {
             header('Location: /florV2/public/index.php?rota=login');
             exit;
@@ -55,6 +58,45 @@ class ProdutoController {
             if ($produtoModel->deletar($id)) {
                 header('Location: /florV2/public/index.php?rota=produtos');
                 exit;
+            }
+        }
+    }
+
+    public function editar() {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: /florV2/public/index.php?rota=login');
+            exit;
+        }
+
+        $produtoModel = new Produto();
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id = $_POST['id'];
+            $nome = $_POST['nome'];
+            $preco = $_POST['preco'];
+            $descricao = $_POST['descricao'];
+
+            if ($produtoModel->editar($id, $nome, $preco, $descricao)) {
+                header('Location: /florV2/public/index.php?rota=produtos');
+                exit;
+            } else {
+                echo "Erro ao atualizar produto.";
+            }
+        } else {
+            $id = $_GET['id'] ?? null;
+            if ($id) {
+                $produto = $produtoModel->buscarPorId($id);
+                if ($produto) {
+                    require_once __DIR__ . '/../views/produtos/editar.php';
+                } else {
+                    echo "Produto não encontrado.";
+                }
+            } else {
+                echo "ID não informado.";
             }
         }
     }

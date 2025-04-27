@@ -1,43 +1,37 @@
 <?php
-session_start();
+require_once __DIR__ . '/../app/controllers/UsuarioController.php';
+require_once __DIR__ . '/../app/controllers/ProdutoController.php';
+require_once __DIR__ . '/../app/controllers/PedidoController.php';
 
-// Carrega as rotas
-require_once __DIR__ . '/../config/routes.php';
+$rota = $_GET['rota'] ?? 'login';
 
-// Pega a rota da URL
-$rota = $_GET['rota'] ?? 'login'; // Se não tiver rota, vai para login
-
-// Define o controller com base na rota
 switch ($rota) {
     case 'login':
         $controller = new UsuarioController();
         $controller->login();
         break;
-
     case 'logout':
-        session_destroy();
-        header('Location: /florV2/public/index.php?rota=login');
-        exit;
+        $controller = new UsuarioController();
+        $controller->logout();
         break;
-
     case 'produtos':
-        if (!isset($_SESSION['usuario_id'])) {
-            header('Location: /florV2/public/index.php?rota=login');
-            exit;
-        }
         $controller = new ProdutoController();
         $controller->listar();
         break;
-
-    case 'pedidos':
-        if (!isset($_SESSION['usuario_id'])) {
-            header('Location: /florV2/public/index.php?rota=login');
-            exit;
-        }
-        $controller = new PedidoController();
-        $controller->listar();
+    case 'criar_produto':
+        $controller = new ProdutoController();
+        $controller->criar();
         break;
-
+    case 'deletar_produto':
+        $controller = new ProdutoController();
+        $controller->deletar();
+        break;
+    case 'editar-produto': // <= 🚨 ADICIONE ESTE CASE
+        $controller = new ProdutoController();
+        $controller->editar();
+        break;
     default:
         echo "Página não encontrada.";
+        exit;
 }
+?>

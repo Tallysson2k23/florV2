@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}?>
 <h1>Criar Produto</h1>
 
 <form method="POST" action="/florV2/public/index.php?rota=criar_produto">
