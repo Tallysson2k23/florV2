@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 
 // Se não estiver logado, redireciona para o login
 if (!isset($_SESSION['usuario_id'])) {
@@ -20,7 +20,8 @@ if (!isset($_SESSION['usuario_id'])) {
 
     <p>Em breve, vamos listar os produtos aqui! 🚀</p>
 
-    <a href="index.php?rota=logout">Sair</a>
+    <a href="/florV2/public/index.php?rota=logout">Sair</a>
+
 
 </body>
 </html>

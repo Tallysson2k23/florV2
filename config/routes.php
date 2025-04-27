@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__ . '/../app/controllers/UsuarioController.php';
+require_once __DIR__ . '/../app/controllers/ProdutoController.php';
+require_once __DIR__ . '/../app/controllers/PedidoController.php';
 
 $rota = $_GET['rota'] ?? '';
 

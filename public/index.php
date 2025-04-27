@@ -1,18 +1,43 @@
 <?php
-require_once '../config/database.php';
-require_once '../config/routes.php';
+session_start();
 
-$route = $_GET['route'] ?? 'login'; // Rota padrão é login se não passar nenhuma
+// Carrega as rotas
+require_once __DIR__ . '/../config/routes.php';
 
-if (isset($routes[$route])) {
-    $controllerName = $routes[$route]['controller'];
-    $actionName = $routes[$route]['action'];
+// Pega a rota da URL
+$rota = $_GET['rota'] ?? 'login'; // Se não tiver rota, vai para login
 
-    require_once '../app/controllers/' . $controllerName . '.php';
+// Define o controller com base na rota
+switch ($rota) {
+    case 'login':
+        $controller = new UsuarioController();
+        $controller->login();
+        break;
 
-    $controller = new $controllerName();
-    $controller->$actionName();
-} else {
-    echo "Página não encontrada.";
+    case 'logout':
+        session_destroy();
+        header('Location: /florV2/public/index.php?rota=login');
+        exit;
+        break;
+
+    case 'produtos':
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: /florV2/public/index.php?rota=login');
+            exit;
+        }
+        $controller = new ProdutoController();
+        $controller->listar();
+        break;
+
+    case 'pedidos':
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: /florV2/public/index.php?rota=login');
+            exit;
+        }
+        $controller = new PedidoController();
+        $controller->listar();
+        break;
+
+    default:
+        echo "Página não encontrada.";
 }
-?>

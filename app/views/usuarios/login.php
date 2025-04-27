@@ -6,25 +6,22 @@
 </head>
 <body>
 
-    <h2>Login</h2>
+<h2>Login</h2>
 
-    <?php if (!empty($erro)) : ?>
-    <div style="color: red; font-weight: bold;">
-        <?php echo $erro; ?>
-    </div>
+<?php if (!empty($erro)) : ?>
+    <p style="color:red;">❌ <?= $erro ?></p>
 <?php endif; ?>
 
+<form method="POST" action="index.php?rota=login">
+    <label>Email:</label><br>
+    <input type="email" name="email" required><br><br>
 
+    <label>Senha:</label><br>
+    <input type="password" name="senha" required><br><br>
 
-    <form action="/florV2/public/index.php?route=login" method="POST">
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+    <button type="submit">Entrar</button>
+</form>
 
-        <label>Senha:</label><br>
-        <input type="password" name="senha" required><br><br>
-
-        <button type="submit">Entrar</button>
-    </form>
 
 </body>
 </html>
