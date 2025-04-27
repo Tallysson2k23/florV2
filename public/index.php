@@ -30,6 +30,12 @@ switch ($rota) {
         $controller = new ProdutoController();
         $controller->editar();
         break;
+        case 'listar-usuarios':
+            require_once __DIR__ . '/../app/controllers/UsuarioController.php';
+            $controller = new UsuarioController();
+            $controller->listar();
+            break;
+            
     default:
         echo "Página não encontrada.";
         exit;

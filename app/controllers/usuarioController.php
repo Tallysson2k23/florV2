@@ -37,6 +37,50 @@ class UsuarioController {
         header('Location: /florV2/public/index.php?rota=login');
         exit;
     }
+
+    public function cadastrar() {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+    
+        if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] != 'admin') {
+            header('Location: /florV2/public/index.php?rota=login');
+            exit;
+        }
+    
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $nome = $_POST['nome'];
+            $email = $_POST['email'];
+            $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+            $tipo = $_POST['tipo']; // <- Novo campo tipo
+    
+            $usuarioModel = new Usuario();
+            if ($usuarioModel->criar($nome, $email, $senha, $tipo)) {
+                header('Location: /florV2/public/index.php?rota=usuarios');
+                exit;
+            } else {
+                $erro = "Erro ao cadastrar usuário.";
+            }
+        }
+    
+        require_once __DIR__ . '/../views/usuarios/cadastrar.php';
+    }
+
+    public function listar() {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['usuario_id'])) {
+            header('Location: /florV2/public/index.php?rota=login');
+            exit;
+        }
+
+        $usuarioModel = new Usuario();
+        $usuarios = $usuarioModel->listar();
+        require_once __DIR__ . '/../views/usuarios/listar.php';
+    }
+    
     
     
     

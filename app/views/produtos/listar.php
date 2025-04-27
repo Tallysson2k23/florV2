@@ -79,6 +79,8 @@ if (!isset($_SESSION['usuario_id'])) {
 
 <a href="/florV2/public/index.php?rota=criar_produto" class="button">Adicionar Produto</a>
 <a href="/florV2/public/index.php?rota=logout" class="button">Sair</a>
+<a href="/florV2/public/index.php?rota=listar-usuarios" class="button">Listar Usuários</a>
+
 
 <br><br>
 

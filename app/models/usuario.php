@@ -25,5 +25,22 @@ class Usuario {
 
         return false;
     }
+
+    public function criar($nome, $email, $senha, $tipo) {
+        $query = "INSERT INTO usuarios (nome, email, senha, tipo) VALUES (:nome, :email, :senha, :tipo)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':nome', $nome);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':senha', $senha);
+        $stmt->bindParam(':tipo', $tipo);
+        return $stmt->execute();
+    }
+    
+    public function listar() {
+        $query = "SELECT * FROM " . $this->table_name . " ORDER BY id DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
