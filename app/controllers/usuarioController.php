@@ -9,7 +9,7 @@ class UsuarioController {
     
             if (!$email || !$senha) {
                 $erro = "Email e senha são obrigatórios.";
-                require_once __DIR__ . '/../views/usuarios/login.php';
+                require_once __DIR__ . '/../views/usuario/login.php';
                 exit;
             }
     
@@ -19,6 +19,7 @@ class UsuarioController {
             if ($usuario) {
                 session_start();
                 $_SESSION['usuario_id'] = $usuario['id'];
+                $_SESSION['tipo'] = $usuario['tipo'];
                 $_SESSION['usuario_nome'] = $usuario['nome'];
     
                 header("Location: index.php?rota=produtos");
@@ -28,7 +29,7 @@ class UsuarioController {
             }
         }
     
-        require_once __DIR__ . '/../views/usuarios/login.php';
+        require_once __DIR__ . '/../views/usuario/login.php';
     }
 
     public function logout() {
@@ -63,24 +64,17 @@ class UsuarioController {
             }
         }
     
-        require_once __DIR__ . '/../views/usuarios/cadastrar.php';
+        require_once __DIR__ . '/../views/usuario/cadastrar.php';
     }
 
-    public function listar() {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+    public function listar()
+{
+    $usuarioModel = new Usuario();
+    $usuarios = $usuarioModel->buscarTodos();
+    require_once __DIR__ . '/../views/usuario/listar.php';
 
-        if (!isset($_SESSION['usuario_id'])) {
-            header('Location: /florV2/public/index.php?rota=login');
-            exit;
-        }
-
-        $usuarioModel = new Usuario();
-        $usuarios = $usuarioModel->listar();
-        require_once __DIR__ . '/../views/usuarios/listar.php';
-    }
-    
+}
+ 
     
     
     
