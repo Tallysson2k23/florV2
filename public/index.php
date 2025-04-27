@@ -3,6 +3,9 @@ require_once __DIR__ . '/../app/controllers/UsuarioController.php';
 require_once __DIR__ . '/../app/controllers/ProdutoController.php';
 require_once __DIR__ . '/../app/controllers/PedidoController.php';
 
+
+$controller = null;
+
 $rota = $_GET['rota'] ?? 'login';
 
 switch ($rota) {
@@ -30,11 +33,21 @@ switch ($rota) {
         $controller = new ProdutoController();
         $controller->editar();
         break;
-        case 'listar-usuarios':
-            require_once __DIR__ . '/../app/controllers/UsuarioController.php';
-            $controller = new UsuarioController();
-            $controller->listar();
-            break;
+    case 'listar-usuarios':
+         require_once __DIR__ . '/../app/controllers/UsuarioController.php';
+         $controller = new UsuarioController();
+         $controller->listar();
+         break;
+
+    case 'cadastrar_usuario':
+         $controller = new UsuarioController();
+         $controller->cadastrar();
+         break;
+    case 'salvar_usuario':
+         $controller = new UsuarioController();
+         $controller->salvar();
+         break;
+            
             
     default:
         echo "Página não encontrada.";

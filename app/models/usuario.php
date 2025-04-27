@@ -12,7 +12,6 @@ class Usuario {
 
     public function login($email, $senha) {
         $query = "SELECT * FROM " . $this->table_name . " WHERE email = :email LIMIT 1";
-
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":email", $email);
         $stmt->execute();
@@ -43,19 +42,6 @@ class Usuario {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function cadastrar($nome, $email, $senha, $nivel_acesso) {
-        $query = "INSERT INTO " . $this->table_name . " (nome, email, senha, nivel_acesso) 
-                  VALUES (:nome, :email, :senha, :nivel_acesso)";
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(':nome', $nome);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':senha', $senha);
-        $stmt->bindParam(':nivel_acesso', $nivel_acesso);
-
-        return $stmt->execute();
-    }
-
     public function buscarTodos() {
         $query = "SELECT * FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
@@ -63,5 +49,13 @@ class Usuario {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function emailExiste($email) {
+        $sql = "SELECT id FROM usuarios WHERE email = :email";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        return $stmt->fetch() !== false;
+    }
 }
 ?>

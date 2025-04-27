@@ -74,6 +74,31 @@ class UsuarioController {
     require_once __DIR__ . '/../views/usuario/listar.php';
 
 }
+
+public function salvar()
+{
+    require_once __DIR__ . '/../models/usuario.php';
+    $usuarioModel = new Usuario();
+
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+    $tipo = $_POST['tipo'];
+
+    // Verifica se o email já existe antes de cadastrar
+    if ($usuarioModel->emailExiste($email)) {
+        echo "<script>alert('Erro: Email já cadastrado!'); window.history.back();</script>";
+        exit;
+    }
+
+    // Cadastra o usuário
+    $usuarioModel->criar($nome, $email, $senha, $tipo);
+
+    // Redireciona para a lista de usuários
+    header('Location: /florV2/public/index.php?rota=listar-usuarios');
+    exit;
+}
+
  
     
     

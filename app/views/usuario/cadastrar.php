@@ -73,7 +73,8 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
 
 <h1>Cadastrar Usuário</h1>
 
-<form method="POST" action="/florV2/public/index.php?rota=cadastrar_usuario">
+<form action="/florV2/public/index.php?rota=salvar_usuario" method="POST">
+
     <label for="nome">Nome:</label>
     <input type="text" name="nome" id="nome" required>
 
@@ -87,7 +88,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
     <select name="tipo" id="tipo" required>
         <option value="funcionario">Funcionário</option>
         <option value="admin">Administrador</option>
-    </select>
+    </select><br><br>
 
     <button type="submit">Cadastrar</button>
 </form>
