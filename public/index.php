@@ -57,6 +57,18 @@ switch ($rota) {
         $controller->excluir();
         break;
 
+     case 'cadastrar-pedido':
+         $controller = new PedidoController();
+         $controller->cadastrar();
+         break;
+     
+    case 'salvar-pedido':
+         $controller = new PedidoController();
+         $controller->salvar();
+         break;
+             
+         
+
     default:
         echo "Página não encontrada.";
         break;

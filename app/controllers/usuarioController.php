@@ -21,8 +21,9 @@ class UsuarioController {
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['tipo'] = $usuario['tipo'];
                 $_SESSION['usuario_nome'] = $usuario['nome'];
-    
-                header("Location: index.php?rota=produtos");
+                
+                header('Location: /florV2/public/index.php?rota=cadastrar-pedido');
+                //header("Location: index.php?rota=produtos"); - para pagina de lista produtos
                 exit;
             } else {
                 $erro = "Email ou senha inválidos.";
