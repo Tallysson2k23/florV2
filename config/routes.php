@@ -9,7 +9,7 @@ $rotas['produtos'] = ['ProdutoController', 'listar'];
 $rotas['criar-produto'] = ['ProdutoController', 'criar'];
 $rotas['excluir-produto'] = ['ProdutoController', 'excluir'];
 $rotas['editar-produto'] = ['ProdutoController', 'editar']; // <= ADICIONE ESTA LINHA
-
+$rotas['painel'] = ['UsuarioController', 'painel'];
 
 $rota = $_GET['rota'] ?? 'login';
 
@@ -39,11 +39,15 @@ switch ($rota) {
         $controller = new ProdutoController();
         $controller->deletar();
         break;
-
-        case 'editar_produto': // NOVO caso adicionado
-            $controller = new ProdutoController();
-            $controller->editar();
-            break; 
+    case 'editar_produto': // NOVO caso adicionado
+        $controller = new ProdutoController();
+        $controller->editar();
+        break;
+    case 'painel':
+        require_once __DIR__ . '/../../views/painel.php';
+        $controller = new UsuarioController();
+        $controller->painel();
+        break;
 
     default:
         echo "Página não encontrada.";

@@ -24,6 +24,7 @@ FLORV2
                 cadastrar.php
                 listar.php
                 login.php
+            painel.php
     config
         database.php
         routes.php

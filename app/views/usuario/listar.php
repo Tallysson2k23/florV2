@@ -1,14 +1,3 @@
-<?php
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
-// Verifica se é admin
-if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
-    header('Location: /florV2/public/index.php');
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,51 +5,61 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
     <title>Lista de Usuários</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             margin: 20px;
-            background-color: #f7f7f7;
+            background-color: #f4f5f7;
         }
         h1 {
-            color: #333;
+            color: #026aa7;
             text-align: center;
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
-            background: #fff;
+            background: white;
             border-collapse: collapse;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
         }
         th, td {
             padding: 12px 15px;
             text-align: center;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #e0e0e0;
         }
         th {
-            background-color: rgb(19, 156, 67);
+            background-color: #5aac44;
             color: white;
+            text-transform: uppercase;
+            font-size: 14px;
         }
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: #f9f9f9;
         }
         .button {
             text-decoration: none;
-            background-color: rgb(35, 10, 81);
+            background-color: #026aa7;
             color: white;
-            padding: 10px 15px;
-            margin: 10px 5px;
-            border-radius: 5px;
+            padding: 10px 16px;
+            margin: 5px 6px 15px 0;
+            border-radius: 6px;
             display: inline-block;
+            transition: background-color 0.2s;
         }
         .button:hover {
-            background-color: #45a049;
+            background-color: #045e94;
         }
         .actions a {
-            margin: 0 5px;
-            color: #d9534f;
+            color: #dc3545;
             font-weight: bold;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
         }
         .actions a:hover {
-            text-decoration: underline;
+            background-color: #f8d7da;
         }
     </style>
 </head>
@@ -69,9 +68,8 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
 <h1>Lista de Usuários</h1>
 
 <a href="/florV2/public/index.php?rota=cadastrar_usuario" class="button">Cadastrar Novo Usuário</a>
-<a href="index.php?rota=produtos" class="button">Voltar</a>
+<a href="/florV2/public/index.php?rota=painel" class="button">Voltar</a>
 <a href="/florV2/public/index.php" class="button">Sair</a>
-
 
 
 <br><br>
@@ -94,8 +92,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
                 <td><?= htmlspecialchars($usuario['email']); ?></td>
                 <td><?= htmlspecialchars($usuario['tipo']); ?></td>
                 <td class="actions">
-                <a href="index.php?rota=excluir-usuario&id=<?= $usuario['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
-
+                    <a href="index.php?rota=excluir-usuario&id=<?= $usuario['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
                 </td>
             </tr>
         <?php endforeach; ?>

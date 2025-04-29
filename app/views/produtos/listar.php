@@ -1,14 +1,3 @@
-<?php
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
-
-// Se não estiver logado, redireciona para o login
-if (!isset($_SESSION['usuario_id'])) {
-    header('Location: /florV2/public/index.php');
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -16,48 +5,56 @@ if (!isset($_SESSION['usuario_id'])) {
     <title>Lista de Produtos</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             margin: 20px;
-            background: #f7f7f7;
+            background: #f4f5f7;
         }
         h1 {
-            color: #333;
+            color: #026aa7;
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
-            background: #fff;
+            background: white;
             border-collapse: collapse;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
         }
         th, td {
             padding: 12px 15px;
             text-align: center;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #e0e0e0;
         }
         th {
-            background-color: rgb(19, 156, 67);
+            background-color: #5aac44;
             color: white;
+            text-transform: uppercase;
+            font-size: 14px;
         }
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: #f9f9f9;
         }
         a.button {
             text-decoration: none;
-            background-color: rgb(35, 10, 81);
+            background-color: #026aa7;
             color: white;
-            padding: 10px 15px;
-            margin: 10px 5px;
-            border-radius: 5px;
+            padding: 10px 16px;
+            margin: 5px 6px 15px 0;
+            border-radius: 6px;
+            display: inline-block;
+            transition: background-color 0.2s;
         }
         a.button:hover {
-            background-color: #45a049;
+            background-color: #045e94;
         }
         .actions .btn {
             padding: 6px 12px;
-            border-radius: 5px;
+            border-radius: 4px;
             text-decoration: none;
             color: white;
-            font-size: 14px;
+            font-size: 13px;
+            transition: background-color 0.2s;
         }
         .actions .editar {
             background-color: #007bff;
@@ -79,15 +76,19 @@ if (!isset($_SESSION['usuario_id'])) {
 
 <a href="/florV2/public/index.php?rota=criar_produto" class="button">Adicionar Produto</a>
 <a href="/florV2/public/index.php?rota=logout" class="button">Sair</a>
-<a href="/florV2/public/index.php?rota=listar-usuarios" class="button">Listar Usuários</a>
 
+<a href="/florV2/public/index.php?rota=painel" class="button">← Voltar</a>
 
 <br><br>
 
-<table border="1" cellpadding="10" cellspacing="0">
+<table>
     <thead>
         <tr>
-            <th>ID</th><th>Nome</th><th>Preço</th><th>Descrição</th><th>Ações</th>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Descrição</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>

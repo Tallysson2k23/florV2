@@ -66,7 +66,11 @@ switch ($rota) {
          $controller = new PedidoController();
          $controller->salvar();
          break;
-             
+          
+    case 'painel':
+         $controller = new UsuarioController();
+         $controller->painel();
+         break;     
          
 
     default:

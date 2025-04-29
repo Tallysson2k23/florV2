@@ -22,7 +22,7 @@ class UsuarioController {
                 $_SESSION['tipo'] = $usuario['tipo'];
                 $_SESSION['usuario_nome'] = $usuario['nome'];
                 
-                header('Location: /florV2/public/index.php?rota=cadastrar-pedido');
+                header('Location: /florV2/public/index.php?rota=painel');
                 //header("Location: index.php?rota=produtos"); - para pagina de lista produtos
                 exit;
             } else {
@@ -111,6 +111,19 @@ public function excluir()
     header('Location: /florV2/public/index.php?rota=listar-usuarios');
     exit;
 }
+
+public function painel() {
+    session_start();
+    if (!isset($_SESSION['usuario_id'])) { // Corrigido para usuario_id
+        header('Location: /florV2/public/index.php?rota=login'); // Corrigido para login
+        exit;
+    }
+    require_once __DIR__ . '/../views/painel.php';
+}
+
+
+
+
 
  
     
