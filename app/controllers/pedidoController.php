@@ -20,15 +20,26 @@ class PedidoController
             $quantidade = $_POST['quantidade'];
             $produto = $_POST['produto'];
             $complemento = $_POST['complemento'];
-            $obs = $_POST['obs'];
+            $obs = $_POST['observacao'] ?? null;
             $data = $_POST['data'];
 
             $pedidoModel->criar($nome, $tipo, $numero_pedido, $quantidade, $produto, $complemento, $obs, $data);
 
-            header('Location: /florV2/public/index.php?rota=pedidos');
+            header('Location: /florV2/public/index.php?rota=painel&sucesso=1');
             exit;
         }
     }
+
+    public function listar()
+    {
+        $pedidoModel = new Pedido();
+        $pedidos = $pedidoModel->buscarTodosOrdenadosPorData();
+    
+        require_once __DIR__ . '/../views/pedidos/lista.php';
+    }
+    
+
 }
+
 
 ?>

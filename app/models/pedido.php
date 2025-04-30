@@ -12,8 +12,8 @@ class Pedido {
 
     public function criar($nome, $tipo, $numero_pedido, $quantidade, $produto, $complemento, $obs, $data) {
         $query = "INSERT INTO " . $this->table_name . " 
-                  (nome, tipo, numero_pedido, quantidade, produto, complemento, obs, data)
-                  VALUES (:nome, :tipo, :numero_pedido, :quantidade, :produto, :complemento, :obs, :data)";
+                  (nome, tipo, numero_pedido, quantidade, produto, complemento, obs, data_abertura)
+                  VALUES (:nome, :tipo, :numero_pedido, :quantidade, :produto, :complemento, :obs, :data_abertura)";
         
         $stmt = $this->conn->prepare($query);
 
@@ -24,9 +24,26 @@ class Pedido {
         $stmt->bindParam(':produto', $produto);
         $stmt->bindParam(':complemento', $complemento);
         $stmt->bindParam(':obs', $obs);
-        $stmt->bindParam(':data', $data);
+        $stmt->bindParam(':data_abertura', $data);
 
         return $stmt->execute();
     }
+
+    public function listarRecentes($limite = 5) {
+        $sql = "SELECT * FROM pedidos ORDER BY data_abertura DESC LIMIT :limite";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function buscarTodosOrdenadosPorData()
+{
+    $sql = "SELECT * FROM pedidos ORDER BY data_abertura DESC";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>

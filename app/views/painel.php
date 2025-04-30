@@ -95,11 +95,69 @@ $nomeUsuario = $_SESSION['usuario_nome'];
     </style>
 </head>
 <body>
+<?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 1): ?>
+    <div class="flash-message" id="flash-msg">
+        Pedido salvo com sucesso!
+    </div>
+    <script>
+        setTimeout(() => {
+            const msg = document.getElementById('flash-msg');
+            if (msg) msg.style.display = 'none';
+        }, 3000); // esconde após 3 segundos
+    </script>
+    <style>
+        .flash-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-weight: bold;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; right: 0; }
+            to { opacity: 1; right: 20px; }
+        }
+    </style>
+<?php endif; ?>
+
 
 <header>Flor de Cheiro</header>
 
 <div class="container">
     <h2>Olá, <?= htmlspecialchars($nomeUsuario) ?>!</h2>
+
+   
+
+<style>
+    .pedido-lista {
+        width: 100%;
+        max-width: 600px;
+        margin-top: 20px;
+    }
+
+    .pedido-card {
+        background: #ffffff;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-left: 5px solid #4CAF50;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+    }
+
+    .pedido-card:hover {
+        transform: translateY(-2px);
+    }
+</style>
+
+
 
     <div class="card-container">
         <div class="card">

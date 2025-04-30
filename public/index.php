@@ -57,21 +57,26 @@ switch ($rota) {
         $controller->excluir();
         break;
 
-     case 'cadastrar-pedido':
-         $controller = new PedidoController();
-         $controller->cadastrar();
-         break;
-     
+    case 'cadastrar-pedido':
+        $controller = new PedidoController();
+        $controller->cadastrar();
+        break;
+
     case 'salvar-pedido':
-         $controller = new PedidoController();
-         $controller->salvar();
-         break;
-          
+        $controller = new PedidoController();
+        $controller->salvar();
+        break;
+
     case 'painel':
-         $controller = new UsuarioController();
-         $controller->painel();
-         break;     
-         
+        $controller = new UsuarioController();
+        $controller->painel();
+        break;
+
+    // ✅ NOVA ROTA ADICIONADA COM CUIDADO
+    case 'lista-pedidos':
+        $controller = new PedidoController();
+        $controller->listar();
+        break;
 
     default:
         echo "Página não encontrada.";

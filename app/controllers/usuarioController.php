@@ -1,5 +1,9 @@
 <?php
 require_once __DIR__ . '/../models/Usuario.php';
+require_once __DIR__ . '/../models/Pedido.php';
+$pedidoModel = new Pedido();
+$pedidos = $pedidoModel->buscarTodosOrdenadosPorData();
+
 
 class UsuarioController {
     public function login() {
@@ -118,6 +122,11 @@ public function painel() {
         header('Location: /florV2/public/index.php?rota=login'); // Corrigido para login
         exit;
     }
+
+    require_once __DIR__ . '/../models/pedido.php';
+    $pedidoModel = new Pedido();
+    $pedidosRecentes = $pedidoModel->listarRecentes();
+    
     require_once __DIR__ . '/../views/painel.php';
 }
 
