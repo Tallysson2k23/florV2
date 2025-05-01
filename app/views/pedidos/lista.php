@@ -1,6 +1,5 @@
 <?php
-
-session_start(); 
+session_start();
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: /florV2/public/index.php?rota=login');
     exit;
@@ -14,54 +13,66 @@ if (!isset($_SESSION['usuario_id'])) {
     <title>Lista de Pedidos</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e5e5e5;
             padding: 20px;
-            color: #333;
         }
 
         h2 {
             text-align: center;
-            color: #026aa7;
+            color: #333;
         }
 
-        .pedido {
+        table {
+            width: 100%;
+            border-collapse: collapse;
             background-color: #fff;
-            margin: 15px auto;
-            padding: 20px;
-            max-width: 600px;
-            border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        .pedido h3 {
-            margin-top: 0;
-            color: #444;
+        th, td {
+            border: 1px solid #c0c0c0;
+            padding: 10px;
         }
 
-        .pedido p {
-            margin: 5px 0;
-            line-height: 1.5;
+        th {
+            background-color: #b0b0b0;
+            color: #fff;
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        td.cliente {
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f0f0f0;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #d9d9d9;
         }
 
         .btn-voltar {
-            display: block;
             text-align: center;
-            margin: 30px auto;
+            margin-top: 20px;
         }
 
         .btn-voltar a {
-            background-color: #026aa7;
+            background-color: #666;
             color: white;
             text-decoration: none;
             padding: 10px 20px;
             border-radius: 6px;
-            transition: background-color 0.3s;
+            display: inline-block;
         }
 
         .btn-voltar a:hover {
-            background-color: #014f87;
+            background-color: #444;
         }
     </style>
 </head>
@@ -69,24 +80,39 @@ if (!isset($_SESSION['usuario_id'])) {
 
 <h2>Lista de Pedidos</h2>
 
-<?php foreach ($pedidos as $pedido): ?>
-    <div class="pedido">
-        <h3>Pedido #<?= $pedido['id'] ?></h3>
-        <p><strong>Cliente:</strong> <?= htmlspecialchars($pedido['nome']) ?></p>
-        <p><strong>Tipo:</strong> <?= htmlspecialchars($pedido['tipo']) ?></p>
-        <p><strong>Produto:</strong> <?= htmlspecialchars($pedido['produto']) ?></p>
-        <p><strong>Quantidade:</strong> <?= htmlspecialchars($pedido['quantidade']) ?></p>
-        <p><strong>Complemento:</strong> <?= htmlspecialchars($pedido['complemento']) ?></p>
-        <p><strong>Observação:</strong> <?= htmlspecialchars($pedido['obs']) ?></p>
-        <p><strong>Data:</strong> <?= date('d/m/Y', strtotime($pedido['data_abertura'])) ?></p>
-    </div>
-<?php endforeach; ?>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Tipo</th>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Complemento</th>
+            <th>Observação</th>
+            <th>Status</th>
+            <th>Data</th>
+        </tr>
+    </thead>
+    <tbody id="pedido-body">
+        <?php foreach ($pedidos as $pedido): ?>
+            <tr>
+                <td><?= $pedido['id'] ?></td>
+                <td class="cliente"><?= htmlspecialchars($pedido['nome']) ?></td>
+                <td><?= htmlspecialchars($pedido['tipo']) ?></td>
+                <td><?= htmlspecialchars($pedido['produto']) ?></td>
+                <td><?= htmlspecialchars($pedido['quantidade']) ?></td>
+                <td><?= htmlspecialchars($pedido['complemento']) ?></td>
+                <td><?= htmlspecialchars($pedido['obs']) ?></td>
+                <td><?= htmlspecialchars($pedido['status'] ?? 'Pendente') ?></td>
+                <td><?= date('d/m/Y', strtotime($pedido['data_abertura'])) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 
 <div class="btn-voltar">
     <a href="index.php?rota=painel">← Voltar ao Painel</a>
-</div>
-<div id="pedido-container">
-    <!-- Os pedidos aparecerão aqui dinamicamente -->
 </div>
 
 <script>
@@ -94,29 +120,30 @@ function carregarPedidos() {
     fetch('index.php?rota=lista-pedidos-json')
         .then(response => response.json())
         .then(pedidos => {
-            const container = document.getElementById('pedido-container');
-            container.innerHTML = '';
+            const tbody = document.getElementById('pedido-body');
+            tbody.innerHTML = '';
 
             pedidos.forEach(pedido => {
-                const div = document.createElement('div');
-                div.style.marginBottom = '15px';
-                div.innerHTML = `
-                    <strong>Pedido #${pedido.id}</strong><br>
-                    Cliente: ${pedido.nome}<br>
-                    Tipo: ${pedido.tipo}<br>
-                    Produto: ${pedido.produto}<br>
-                    Quantidade: ${pedido.quantidade}<br>
-                    Data: ${pedido.data_abertura}<br>
-                    <hr>
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${pedido.id}</td>
+                    <td class="cliente">${pedido.nome}</td>
+                    <td>${pedido.tipo}</td>
+                    <td>${pedido.produto}</td>
+                    <td>${pedido.quantidade}</td>
+                    <td>${pedido.complemento}</td>
+                    <td>${pedido.obs}</td>
+                    <td>${pedido.status || 'Pendente'}</td>
+                    <td>${new Date(pedido.data_abertura).toLocaleDateString()}</td>
                 `;
-                container.appendChild(div);
+                tbody.prepend(tr);
             });
         });
 }
 
-// Atualiza a lista a cada 5 segundos
 carregarPedidos();
 setInterval(carregarPedidos, 5000);
 </script>
+
 </body>
 </html>
