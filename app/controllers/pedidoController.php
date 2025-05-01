@@ -47,6 +47,18 @@ class PedidoController
     echo json_encode($pedidos);
 }
 
+public function atualizarStatus()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['id'];
+        $status = $_POST['status'];
+
+        $pedidoModel = new Pedido();
+        $pedidoModel->atualizarStatus($id, $status);
+    }
+}
+
+
 
 }
 

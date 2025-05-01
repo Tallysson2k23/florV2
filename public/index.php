@@ -87,6 +87,15 @@ switch ($rota) {
             $controller->listarJson();
             break;
         
+        case 'atualizar-status':
+             $controller = new PedidoController();
+             $controller->atualizarStatus();
+             break;
+      case 'atualizar-status-pedido':
+            $controller = new PedidoController();
+            $controller->atualizarStatus();
+            break;
+               
 
 }
 ?>
