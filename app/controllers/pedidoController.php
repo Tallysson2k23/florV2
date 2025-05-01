@@ -38,6 +38,15 @@ class PedidoController
         require_once __DIR__ . '/../views/pedidos/lista.php';
     }
     
+    public function listarJson()
+{
+    $pedidoModel = new Pedido();
+    $pedidos = $pedidoModel->buscarTodosOrdenadosPorData();
+
+    header('Content-Type: application/json');
+    echo json_encode($pedidos);
+}
+
 
 }
 

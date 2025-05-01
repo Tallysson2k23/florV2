@@ -85,6 +85,38 @@ if (!isset($_SESSION['usuario_id'])) {
 <div class="btn-voltar">
     <a href="index.php?rota=painel">← Voltar ao Painel</a>
 </div>
+<div id="pedido-container">
+    <!-- Os pedidos aparecerão aqui dinamicamente -->
+</div>
 
+<script>
+function carregarPedidos() {
+    fetch('index.php?rota=lista-pedidos-json')
+        .then(response => response.json())
+        .then(pedidos => {
+            const container = document.getElementById('pedido-container');
+            container.innerHTML = '';
+
+            pedidos.forEach(pedido => {
+                const div = document.createElement('div');
+                div.style.marginBottom = '15px';
+                div.innerHTML = `
+                    <strong>Pedido #${pedido.id}</strong><br>
+                    Cliente: ${pedido.nome}<br>
+                    Tipo: ${pedido.tipo}<br>
+                    Produto: ${pedido.produto}<br>
+                    Quantidade: ${pedido.quantidade}<br>
+                    Data: ${pedido.data_abertura}<br>
+                    <hr>
+                `;
+                container.appendChild(div);
+            });
+        });
+}
+
+// Atualiza a lista a cada 5 segundos
+carregarPedidos();
+setInterval(carregarPedidos, 5000);
+</script>
 </body>
 </html>

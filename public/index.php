@@ -81,5 +81,12 @@ switch ($rota) {
     default:
         echo "Página não encontrada.";
         break;
+
+        case 'lista-pedidos-json':
+            $controller = new PedidoController();
+            $controller->listarJson();
+            break;
+        
+
 }
 ?>
