@@ -52,5 +52,11 @@ switch ($rota) {
     default:
         echo "Página não encontrada.";
         break;
+
+    case 'atualizar-status':
+        $controller = new PedidoController();
+        $controller->atualizarStatus();
+        break;
+        
 }
 ?>

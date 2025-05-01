@@ -76,20 +76,18 @@ if (!isset($_SESSION['usuario_id'])) {
         }
 
         .status-select {
-    padding: 4px;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: bold;
-    border: none;
-}
+            padding: 4px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            border: none;
+        }
 
-.status-select option[value="Pendente"]    { background-color: #e74c3c; color: #fff; }
-.status-select option[value="Produção"]    { background-color: #f39c12; color: #fff; }
-.status-select option[value="Pronto"]      { background-color: #2980b9; color: #fff; }
-.status-select option[value="A Caminho"]   { background-color: #8e44ad; color: #fff; }
-.status-select option[value="Entregue"]    { background-color: #27ae60; color: #fff; }
-
-
+        .status-select option[value="Pendente"]    { background-color: #e74c3c; color: #fff; }
+        .status-select option[value="Produção"]    { background-color: #f39c12; color: #fff; }
+        .status-select option[value="Pronto"]      { background-color: #2980b9; color: #fff; }
+        .status-select option[value="A Caminho"]   { background-color: #8e44ad; color: #fff; }
+        .status-select option[value="Entregue"]    { background-color: #27ae60; color: #fff; }
     </style>
 </head>
 <body>
@@ -107,8 +105,6 @@ if (!isset($_SESSION['usuario_id'])) {
             <th>Complemento</th>
             <th>Observação</th>
             <th>Status</th>
-
-
             <th>Data</th>
         </tr>
     </thead>
@@ -123,15 +119,14 @@ if (!isset($_SESSION['usuario_id'])) {
                 <td><?= htmlspecialchars($pedido['complemento']) ?></td>
                 <td><?= htmlspecialchars($pedido['obs']) ?></td>
                 <td>
-    <select class="status-select" data-id="<?= $pedido['id'] ?>">
-        <option value="Pendente"   <?= $pedido['status'] === 'Pendente' ? 'selected' : '' ?>>Pendente</option>
-        <option value="Produção"   <?= $pedido['status'] === 'Produção' ? 'selected' : '' ?>>Produção</option>
-        <option value="Pronto"     <?= $pedido['status'] === 'Pronto' ? 'selected' : '' ?>>Pronto</option>
-        <option value="A Caminho"  <?= $pedido['status'] === 'A Caminho' ? 'selected' : '' ?>>A Caminho</option>
-        <option value="Entregue"   <?= $pedido['status'] === 'Entregue' ? 'selected' : '' ?>>Entregue</option>
-    </select>
-</td>
-
+                    <select class="status-select" data-id="<?= $pedido['id'] ?>">
+                        <option value="Pendente"   <?= isset($pedido['status']) && $pedido['status'] === 'Pendente' ? 'selected' : '' ?>>Pendente</option>
+                        <option value="Produção"   <?= isset($pedido['status']) && $pedido['status'] === 'Produção' ? 'selected' : '' ?>>Produção</option>
+                        <option value="Pronto"     <?= isset($pedido['status']) && $pedido['status'] === 'Pronto' ? 'selected' : '' ?>>Pronto</option>
+                        <option value="A Caminho"  <?= isset($pedido['status']) && $pedido['status'] === 'A Caminho' ? 'selected' : '' ?>>A Caminho</option>
+                        <option value="Entregue"   <?= isset($pedido['status']) && $pedido['status'] === 'Entregue' ? 'selected' : '' ?>>Entregue</option>
+                    </select>
+                </td>
                 <td><?= date('d/m/Y', strtotime($pedido['data_abertura'])) ?></td>
             </tr>
         <?php endforeach; ?>
@@ -153,43 +148,43 @@ function carregarPedidos() {
             pedidos.forEach(pedido => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-    <td>${pedido.id}</td>
-    <td class="cliente">${pedido.nome}</td>
-    <td>${pedido.tipo}</td>
-    <td>${pedido.produto}</td>
-    <td>${pedido.quantidade}</td>
-    <td>${pedido.complemento}</td>
-    <td>${pedido.obs}</td>
-    <td>
-        <select class="status-select" data-id="${pedido.id}">
-            <option value="Pendente"   ${pedido.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
-            <option value="Produção"   ${pedido.status === 'Produção' ? 'selected' : ''}>Produção</option>
-            <option value="Pronto"     ${pedido.status === 'Pronto' ? 'selected' : ''}>Pronto</option>
-            <option value="A Caminho"  ${pedido.status === 'A Caminho' ? 'selected' : ''}>A Caminho</option>
-            <option value="Entregue"   ${pedido.status === 'Entregue' ? 'selected' : ''}>Entregue</option>
-        </select>
-    </td>
-    <td>${new Date(pedido.data_abertura).toLocaleDateString()}</td>
-`;
-
+                    <td>${pedido.id}</td>
+                    <td class="cliente">${pedido.nome}</td>
+                    <td>${pedido.tipo}</td>
+                    <td>${pedido.produto}</td>
+                    <td>${pedido.quantidade}</td>
+                    <td>${pedido.complemento}</td>
+                    <td>${pedido.obs}</td>
+                    <td>
+                        <select class="status-select" data-id="${pedido.id}">
+                            <option value="Pendente" ${pedido.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
+                            <option value="Produção" ${pedido.status === 'Produção' ? 'selected' : ''}>Produção</option>
+                            <option value="Pronto" ${pedido.status === 'Pronto' ? 'selected' : ''}>Pronto</option>
+                            <option value="A Caminho" ${pedido.status === 'A Caminho' ? 'selected' : ''}>A Caminho</option>
+                            <option value="Entregue" ${pedido.status === 'Entregue' ? 'selected' : ''}>Entregue</option>
+                        </select>
+                    </td>
+                    <td>${new Date(pedido.data_abertura).toLocaleDateString()}</td>
+                `;
                 tbody.prepend(tr);
+            });
+
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    const pedidoId = this.getAttribute('data-id');
+                    const novoStatus = this.value;
+
+                    fetch('index.php?rota=atualizar-status', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `id=${pedidoId}&status=${encodeURIComponent(novoStatus)}`
+                    });
+                });
             });
         });
 }
-document.addEventListener('change', function(e) {
-    if (e.target.classList.contains('status-select')) {
-        const pedidoId = e.target.getAttribute('data-id');
-        const novoStatus = e.target.value;
-
-        fetch('index.php?rota=atualizar-status', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `id=${pedidoId}&status=${encodeURIComponent(novoStatus)}`
-        });
-    }
-});
 
 carregarPedidos();
 setInterval(carregarPedidos, 5000);

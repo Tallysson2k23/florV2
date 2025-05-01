@@ -8,9 +8,8 @@ class PedidoController
         require_once __DIR__ . '/../views/pedidos/cadastrar.php';
     }
 
-    // Outros métodos virão depois (como salvar, listar, etc.)
-
-    public function salvar() {
+    public function salvar()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pedidoModel = new Pedido();
 
@@ -34,33 +33,35 @@ class PedidoController
     {
         $pedidoModel = new Pedido();
         $pedidos = $pedidoModel->buscarTodosOrdenadosPorData();
-    
+
         require_once __DIR__ . '/../views/pedidos/lista.php';
     }
-    
+
     public function listarJson()
-{
-    $pedidoModel = new Pedido();
-    $pedidos = $pedidoModel->buscarTodosOrdenadosPorData();
-
-    header('Content-Type: application/json');
-    echo json_encode($pedidos);
-}
-
-public function atualizarStatus()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $id = $_POST['id'];
-        $status = $_POST['status'];
-
+    {
         $pedidoModel = new Pedido();
-        $pedidoModel->atualizarStatus($id, $status);
+        $pedidos = $pedidoModel->buscarTodosOrdenadosPorData();
+
+        header('Content-Type: application/json');
+        echo json_encode($pedidos);
+    }
+
+    public function atualizarStatus()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            $status = $_POST['status'] ?? null;
+
+            if ($id && $status) {
+                $pedidoModel = new Pedido();
+                $pedidoModel->atualizarStatus($id, $status);
+                http_response_code(200);
+            } else {
+                http_response_code(400);
+            }
+        } else {
+            http_response_code(405);
+        }
     }
 }
-
-
-
-}
-
-
 ?>

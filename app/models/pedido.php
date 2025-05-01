@@ -45,14 +45,16 @@ class Pedido {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function atualizarStatus($id, $status)
-{
-    $sql = "UPDATE pedidos SET status = :status WHERE id = :id";
-    $stmt = $this->conn->prepare($sql);
+public function atualizarStatus($id, $status) {
+    $pdo = Database::getInstance();
+
+    $stmt = $pdo->prepare("UPDATE pedidos SET status = :status WHERE id = :id");
     $stmt->bindParam(':status', $status);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmt->execute();
+
+    return $stmt->execute();
 }
+
 
 
 }
