@@ -146,6 +146,8 @@ function carregarPedidos() {
             tbody.innerHTML = '';
 
             pedidos.forEach(pedido => {
+                const status = pedido.status ? pedido.status.trim() : 'Pendente';
+
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${pedido.id}</td>
@@ -157,11 +159,11 @@ function carregarPedidos() {
                     <td>${pedido.obs}</td>
                     <td>
                         <select class="status-select" data-id="${pedido.id}">
-                            <option value="Pendente" ${pedido.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
-                            <option value="Produção" ${pedido.status === 'Produção' ? 'selected' : ''}>Produção</option>
-                            <option value="Pronto" ${pedido.status === 'Pronto' ? 'selected' : ''}>Pronto</option>
-                            <option value="A Caminho" ${pedido.status === 'A Caminho' ? 'selected' : ''}>A Caminho</option>
-                            <option value="Entregue" ${pedido.status === 'Entregue' ? 'selected' : ''}>Entregue</option>
+                            <option value="Pendente"   ${status === 'Pendente' ? 'selected' : ''}>Pendente</option>
+                            <option value="Produção"   ${status === 'Produção' ? 'selected' : ''}>Produção</option>
+                            <option value="Pronto"     ${status === 'Pronto' ? 'selected' : ''}>Pronto</option>
+                            <option value="A Caminho"  ${status === 'A Caminho' ? 'selected' : ''}>A Caminho</option>
+                            <option value="Entregue"   ${status === 'Entregue' ? 'selected' : ''}>Entregue</option>
                         </select>
                     </td>
                     <td>${new Date(pedido.data_abertura).toLocaleDateString()}</td>
@@ -186,8 +188,9 @@ function carregarPedidos() {
         });
 }
 
+
 carregarPedidos();
-setInterval(carregarPedidos, 5000);
+setInterval(carregarPedidos, 15000);
 </script>
 
 </body>

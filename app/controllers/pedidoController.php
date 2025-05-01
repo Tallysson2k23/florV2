@@ -47,21 +47,29 @@ class PedidoController
     }
 
     public function atualizarStatus()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_POST['id'] ?? null;
-            $status = $_POST['status'] ?? null;
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['id'] ?? null;
+        $status = $_POST['status'] ?? null;
 
-            if ($id && $status) {
-                $pedidoModel = new Pedido();
-                $pedidoModel->atualizarStatus($id, $status);
+        if ($id && $status) {
+            $pedidoModel = new Pedido();
+            $sucesso = $pedidoModel->atualizarStatus($id, $status);
+
+            if ($sucesso) {
                 http_response_code(200);
             } else {
-                http_response_code(400);
+                http_response_code(500); // Falha no update
+                error_log("Erro ao atualizar status do pedido ID $id para $status");
             }
         } else {
-            http_response_code(405);
+            http_response_code(400); // Dados ausentes
+            error_log("Dados ausentes para atualizar status: id=$id, status=$status");
         }
+    } else {
+        http_response_code(405); // Método não permitido
     }
+}
+
 }
 ?>
