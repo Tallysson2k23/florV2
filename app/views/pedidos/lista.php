@@ -83,11 +83,11 @@ if (!isset($_SESSION['usuario_id'])) {
             border: none;
         }
 
-        .status-select option[value="Pendente"]    { background-color: #e74c3c; color: #fff; }
-        .status-select option[value="Produção"]    { background-color: #f39c12; color: #fff; }
-        .status-select option[value="Pronto"]      { background-color: #2980b9; color: #fff; }
-        .status-select option[value="A Caminho"]   { background-color: #8e44ad; color: #fff; }
-        .status-select option[value="Entregue"]    { background-color: #27ae60; color: #fff; }
+        .status-pendente   { background-color: #e74c3c; color: #fff; }
+        .status-producao   { background-color: #f39c12; color: #fff; }
+        .status-pronto     { background-color: #2980b9; color: #fff; }
+        .status-a-caminho  { background-color: #8e44ad; color: #fff; }
+        .status-entregue   { background-color:rgb(26, 170, 86); color: #fff; }
     </style>
 </head>
 <body>
@@ -120,11 +120,13 @@ if (!isset($_SESSION['usuario_id'])) {
                 <td><?= htmlspecialchars($pedido['obs']) ?></td>
                 <td>
                     <select class="status-select" data-id="<?= $pedido['id'] ?>">
-                        <option value="Pendente"   <?= isset($pedido['status']) && $pedido['status'] === 'Pendente' ? 'selected' : '' ?>>Pendente</option>
-                        <option value="Produção"   <?= isset($pedido['status']) && $pedido['status'] === 'Produção' ? 'selected' : '' ?>>Produção</option>
-                        <option value="Pronto"     <?= isset($pedido['status']) && $pedido['status'] === 'Pronto' ? 'selected' : '' ?>>Pronto</option>
-                        <option value="A Caminho"  <?= isset($pedido['status']) && $pedido['status'] === 'A Caminho' ? 'selected' : '' ?>>A Caminho</option>
-                        <option value="Entregue"   <?= isset($pedido['status']) && $pedido['status'] === 'Entregue' ? 'selected' : '' ?>>Entregue</option>
+                        <?php
+                        $statusOptions = ['Pendente', 'Produção', 'Pronto', 'A Caminho', 'Entregue'];
+                        foreach ($statusOptions as $opt):
+                            $selected = ($pedido['status'] ?? 'Pendente') === $opt ? 'selected' : '';
+                            echo "<option value=\"$opt\" $selected>$opt</option>";
+                        endforeach;
+                        ?>
                     </select>
                 </td>
                 <td><?= date('d/m/Y', strtotime($pedido['data_abertura'])) ?></td>
@@ -138,17 +140,50 @@ if (!isset($_SESSION['usuario_id'])) {
 </div>
 
 <script>
+function aplicarClasseStatus(select, status) {
+    const classes = [
+        'status-pendente', 'status-producao',
+        'status-pronto', 'status-a-caminho', 'status-entregue'
+    ];
+    select.classList.remove(...classes);
+
+    switch (status.toLowerCase()) {
+        case 'pendente':    select.classList.add('status-pendente'); break;
+        case 'produção':    select.classList.add('status-producao'); break;
+        case 'pronto':      select.classList.add('status-pronto'); break;
+        case 'a caminho':   select.classList.add('status-a-caminho'); break;
+        case 'entregue':    select.classList.add('status-entregue'); break;
+    }
+}
+
+function adicionarEventoStatus(select) {
+    aplicarClasseStatus(select, select.value);
+
+    select.addEventListener('change', function () {
+        const pedidoId = this.getAttribute('data-id');
+        const novoStatus = this.value;
+
+        fetch('index.php?rota=atualizar-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id=${pedidoId}&status=${encodeURIComponent(novoStatus)}`
+        }).then(() => aplicarClasseStatus(this, novoStatus));
+    });
+}
+
 function carregarPedidos() {
     fetch('index.php?rota=lista-pedidos-json')
         .then(response => response.json())
         .then(pedidos => {
             const tbody = document.getElementById('pedido-body');
-            tbody.innerHTML = '';
+            tbody.innerHTML = ''; // Limpa a tabela
 
             pedidos.forEach(pedido => {
                 const status = pedido.status ? pedido.status.trim() : 'Pendente';
-
                 const tr = document.createElement('tr');
+
                 tr.innerHTML = `
                     <td>${pedido.id}</td>
                     <td class="cliente">${pedido.nome}</td>
@@ -168,30 +203,25 @@ function carregarPedidos() {
                     </td>
                     <td>${new Date(pedido.data_abertura).toLocaleDateString()}</td>
                 `;
-                tbody.prepend(tr);
-            });
 
-            document.querySelectorAll('.status-select').forEach(select => {
-                select.addEventListener('change', function() {
-                    const pedidoId = this.getAttribute('data-id');
-                    const novoStatus = this.value;
+                tbody.prepend(tr); // mais recentes no topo
 
-                    fetch('index.php?rota=atualizar-status', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: `id=${pedidoId}&status=${encodeURIComponent(novoStatus)}`
-                    });
-                });
+                const select = tr.querySelector('.status-select');
+                adicionarEventoStatus(select);
             });
-        });
+        })
+        .catch(error => console.error('Erro ao carregar pedidos:', error));
 }
 
+// Aplica estilo aos selects já existentes (caso exista conteúdo carregado inicialmente)
+document.querySelectorAll('.status-select').forEach(adicionarEventoStatus);
 
+// Atualiza automaticamente a cada 5 segundos
 carregarPedidos();
-setInterval(carregarPedidos, 15000);
+setInterval(carregarPedidos, 5000);
 </script>
+
+
 
 </body>
 </html>

@@ -83,9 +83,10 @@ switch ($rota) {
         break;
 
         case 'lista-pedidos-json':
-            $controller = new PedidoController();
-            $controller->listarJson();
-            break;
+    $controller = new PedidoController();
+    $controller->listaPedidosJson(); // este é o nome correto
+    break;
+
         
         case 'atualizar-status':
              $controller = new PedidoController();

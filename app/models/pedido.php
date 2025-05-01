@@ -57,5 +57,14 @@ class Pedido {
         return $stmt->execute();
     }
     
+    public function listarTodos() {
+        $sql = "SELECT * FROM pedidos ORDER BY data_abertura DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    
+    
 }
 ?>

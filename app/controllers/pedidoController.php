@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/Pedido.php';
+require_once __DIR__ . '/../models/pedido.php';
 
 class PedidoController
 {
@@ -37,14 +37,17 @@ class PedidoController
         require_once __DIR__ . '/../views/pedidos/lista.php';
     }
 
-    public function listarJson()
-    {
-        $pedidoModel = new Pedido();
-        $pedidos = $pedidoModel->buscarTodosOrdenadosPorData();
-
+    public function listaPedidosJson() {
+        $pedidosModel = new Pedido(); // CORRIGIDO
+        $pedidos = $pedidosModel->listarTodos(); // Ou buscarTodosOrdenadosPorData()
         header('Content-Type: application/json');
         echo json_encode($pedidos);
+        exit;
     }
+    
+
+
+
 
     public function atualizarStatus()
 {
