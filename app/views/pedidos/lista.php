@@ -110,6 +110,7 @@ if (!isset($_SESSION['usuario_id'])) {
     </thead>
     <tbody id="pedido-body">
         <?php foreach ($pedidos as $pedido): ?>
+            
             <tr>
                 <td><?= $pedido['id'] ?></td>
                 <td class="cliente"><?= htmlspecialchars($pedido['nome']) ?></td>
@@ -131,6 +132,8 @@ if (!isset($_SESSION['usuario_id'])) {
                 </td>
                 <td><?= date('d/m/Y', strtotime($pedido['data_abertura'])) ?></td>
             </tr>
+                
+
         <?php endforeach; ?>
     </tbody>
 </table>
@@ -204,7 +207,9 @@ function carregarPedidos() {
                     <td>${new Date(pedido.data_abertura).toLocaleDateString()}</td>
                 `;
 
-                tbody.prepend(tr); // mais recentes no topo
+                
+                tbody.prepend(tr); // mais recente no topo
+
 
                 const select = tr.querySelector('.status-select');
                 adicionarEventoStatus(select);
