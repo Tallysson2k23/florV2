@@ -23,5 +23,14 @@ class Database {
 
         return $this->conn;
     }
+
+    
+    public static function conectar() {
+        $db = new self();
+        return $db->getConnection();
+    }
+    
+    
+    
 }
 ?>
