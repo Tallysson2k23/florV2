@@ -11,16 +11,12 @@ class Pedido {
     }
 
     public function criar($nome, $tipo, $numero_pedido, $quantidade, $produto, $complemento, $obs, $data) {
-        $status = 'Pendente';
-
-        $stmt = $this->conn->query("SELECT MAX(ordem_fila) as max_fila FROM pedidos");
-        $maxOrdem = $stmt->fetch(PDO::FETCH_ASSOC)['max_fila'] ?? 0;
-        $novaOrdem = $maxOrdem + 1;
+        $status = 'Pendente'; // Valor padrão
 
         $query = "INSERT INTO " . $this->table_name . " 
-                  (nome, tipo, numero_pedido, quantidade, produto, complemento, obs, data_abertura, status, ordem_fila)
-                  VALUES (:nome, :tipo, :numero_pedido, :quantidade, :produto, :complemento, :obs, :data_abertura, :status, :ordem_fila)";
-
+                  (nome, tipo, numero_pedido, quantidade, produto, complemento, obs, data_abertura, status)
+                  VALUES (:nome, :tipo, :numero_pedido, :quantidade, :produto, :complemento, :obs, :data_abertura, :status)";
+        
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(':nome', $nome);
@@ -32,7 +28,6 @@ class Pedido {
         $stmt->bindParam(':obs', $obs);
         $stmt->bindParam(':data_abertura', $data);
         $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':ordem_fila', $novaOrdem, PDO::PARAM_INT);
 
         return $stmt->execute();
     }
@@ -47,11 +42,13 @@ class Pedido {
 
     public function buscarTodosOrdenadosPorData() {
         $sql = "SELECT id, nome, tipo, produto, quantidade, complemento, obs, data_abertura, status, ordem_fila 
-                FROM pedidos ORDER BY ordem_fila DESC"; // <<< ALTERADO AQUI
+                FROM pedidos ORDER BY ordem_fila DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
 
     public function atualizarStatus($id, $status) {
         $sql = "UPDATE pedidos SET status = :status WHERE id = :id";
@@ -60,12 +57,15 @@ class Pedido {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
-
+    
     public function listarTodos() {
-        $sql = "SELECT * FROM pedidos ORDER BY id DESC";
+        $sql = "SELECT * FROM pedidos ORDER BY data_abertura DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    
+    
 }
 ?>

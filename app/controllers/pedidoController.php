@@ -39,7 +39,8 @@ class PedidoController
 
     public function listaPedidosJson() {
         $pedidosModel = new Pedido(); // CORRIGIDO
-        $pedidos = $pedidosModel->listarTodos(); // Ou buscarTodosOrdenadosPorData()
+        $pedidos = $this->model->buscarTodosOrdenadosPorData();
+ // Ou buscarTodosOrdenadosPorData()
         header('Content-Type: application/json');
         echo json_encode($pedidos);
         exit;

@@ -10,6 +10,7 @@ if (!isset($_SESSION['usuario_id'])) {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="50"> <!-- Esta linha atualiza a página a cada 50 segundos -->
     <title>Lista de Pedidos</title>
     <style>
         body {
@@ -208,7 +209,8 @@ function carregarPedidos() {
                 `;
 
                 
-                tbody.prepend(tr); // mais recente no topo
+                tbody.appendChild(tr);
+
 
 
                 const select = tr.querySelector('.status-select');
