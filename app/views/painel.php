@@ -14,13 +14,13 @@ $nomeUsuario = $_SESSION['usuario_nome'];
         body {
             margin: 0;
             padding: 0;
-            background-color: #f4f5f7;
+            background-color:rgb(104, 99, 99);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #333;
         }
 
         header {
-            background-color: #026aa7;
+            background-color:rgb(0, 3, 4);
             color: white;
             padding: 20px;
             text-align: center;
@@ -128,7 +128,7 @@ $nomeUsuario = $_SESSION['usuario_nome'];
 <?php endif; ?>
 
 
-<header>Flor de Cheiro</header>
+<header>𝓕𝓵𝓸𝓻 𝓭𝓮 𝓒𝓱𝓮𝓲𝓻𝓸 </header>
 
 <div class="container">
 
@@ -172,8 +172,8 @@ foreach ($pedidosWorkflow as $pedido) {
 ?>
 
 <!-- AGENDA DO DIA -->
-<h2>📅 Agenda do Dia (<?= date('d/m/Y') ?>)</h2>
-<ul style="width:100%; max-width:600px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+<h2 style="color:#000;">📅 Agenda do Dia (<?= date('d/m/Y') ?>)</h2>
+<ul style="width:100%; max-width:600px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 4px rgba(161, 160, 155, 0.15);">
     <?php if (count($pedidosHoje) > 0): ?>
         <?php foreach ($pedidosHoje as $pedido): ?>
             <li style="margin-bottom:10px;">
@@ -186,7 +186,7 @@ foreach ($pedidosWorkflow as $pedido) {
 </ul>
 
 <!-- WORKFLOW (KANBAN) -->
-<h2 style="margin-top:50px;">🔁Acompanhar Pedidos</h2>
+<h2 style="margin-top:50px; color:#000;">🔁Acompanhar Pedidos</h2>
 <div style="display:flex; gap:20px; overflow-x:auto; padding:20px 0;">
     <?php foreach ($statusAgrupado as $status => $lista): ?>
         <div style="flex:1; min-width:200px; background:#f0f0f0; padding:10px; border-radius:10px;">
