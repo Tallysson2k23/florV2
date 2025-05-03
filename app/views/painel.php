@@ -84,10 +84,12 @@ $nomeUsuario = $_SESSION['usuario_nome'];
         }
 
         .logout a {
-            color: #c0392b;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    color: rgb(255, 25, 0);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px; /* Aumente esse valor conforme o desejado Sair da cota */
+}
+
 
         .logout a:hover {
             text-decoration: underline;
@@ -210,7 +212,7 @@ foreach ($pedidosWorkflow as $pedido) {
  
 
 
-    <h2>Olá, <?= htmlspecialchars($nomeUsuario) ?>!</h2>
+    <h2 style="color:#000;">Olá, <?= htmlspecialchars($nomeUsuario) ?>!</h2>
 
    
 
