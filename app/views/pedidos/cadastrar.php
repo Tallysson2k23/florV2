@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../config/database.php';
-
+$dataHoje = date('Y-m-d');
 
 
 
@@ -133,7 +133,8 @@ require_once __DIR__ . '/../../../config/database.php';
       </tr>
       <tr>
         <td><label for="data">Data:</label></td>
-        <td colspan="3"><input type="date" name="data" id="data" required></td>
+        <td colspan="3"><input type="date" name="data" id="data" value="<?= $dataHoje ?>" required>
+        </td>
       </tr>
     </table>
 
