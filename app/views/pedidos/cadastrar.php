@@ -124,10 +124,22 @@
 
     <div class="buttons">
       <button type="submit" class="submit">Enviar</button>
-      <button type="button" class="cancel" onclick="window.location.href='index.php?rota=painel'">Cancelar</button>
+      <button type="button" class="cancel" id="cancelarButton">Cancelar</button>
     </div>
   </form>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const btnCancelar = document.getElementById("cancelarButton");
+
+    btnCancelar.addEventListener("click", function () {
+      const confirmacao = confirm("Tem certeza que deseja cancelar? Todos os dados não salvos serão perdidos.");
+      if (confirmacao) {
+        window.location.href = "index.php?rota=painel";
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
