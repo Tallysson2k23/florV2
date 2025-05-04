@@ -214,7 +214,7 @@ setTimeout(() => {
         </div>
         <div class="card">
             <h3>Agenda de Pedidos</h3>
-            <button onclick="location.href='/florV2/public/index.php?rota=listar-usuarios'">Acessar</button>
+            <button onclick= >Acessar</button> <!-- "location.href='/florV2/public/index.php?rota=listar-usuarios'" -->
         </div>
         <div class="card">
             <h3>Lista de Usuario</h3>
