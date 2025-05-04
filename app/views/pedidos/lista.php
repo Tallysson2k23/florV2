@@ -214,12 +214,14 @@ function carregarPedidos() {
                         </select>
                     </td>
                     <td>${new Date(pedido.data_abertura).toLocaleDateString()}</td>
+                    <td>
+                        <a href="index.php?rota=imprimir-pedido&id=${pedido.id}" target="_blank">
+                            <button style="padding: 5px 10px; font-size: 12px;">🖨️ Imprimir</button>
+                        </a>
+                    </td>
                 `;
 
-                
                 tbody.appendChild(tr);
-
-
 
                 const select = tr.querySelector('.status-select');
                 adicionarEventoStatus(select);
@@ -227,6 +229,7 @@ function carregarPedidos() {
         })
         .catch(error => console.error('Erro ao carregar pedidos:', error));
 }
+
 
 // Aplica estilo aos selects já existentes (caso exista conteúdo carregado inicialmente)
 document.querySelectorAll('.status-select').forEach(adicionarEventoStatus);
