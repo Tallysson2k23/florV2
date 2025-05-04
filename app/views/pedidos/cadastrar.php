@@ -99,14 +99,17 @@
       <tr>
         <td><label for="quantidade">QNT:</label></td>
         <td><input type="number" name="quantidade" id="quantidade" required></td>
-        <td><label for="produto">Produtos:</label></td>
-        <td><select name="produto" id="produto" required>
-          <option value="Flor 1">Flor 1</option>
-          <option value="Flor 2">Flor 2</option>
-          <option value="Flor 3">Flor 3</option>
-          <option value="Flor 4">Flor 4</option>
-          <option value="Flor 5">Flor 5</option>
-        </select></td>
+        <td><label for="produto">Produto:</label></td>
+        <td colspan="1">
+          <input list="produtos" name="produto" id="produto" placeholder="Digite ou selecione o produto" required>
+          <datalist id="produtos">
+            <option value="Flor 1">
+            <option value="Flor 2">
+            <option value="Flor 3">
+            <option value="Flor 4">
+            <option value="Flor 5">
+          </datalist>
+        </td>
       </tr>
       <tr>
         <td><label for="complemento">Complemento:</label></td>
@@ -128,10 +131,10 @@
     </div>
   </form>
 </div>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const btnCancelar = document.getElementById("cancelarButton");
-
     btnCancelar.addEventListener("click", function () {
       const confirmacao = confirm("Tem certeza que deseja cancelar? Todos os dados não salvos serão perdidos.");
       if (confirmacao) {
