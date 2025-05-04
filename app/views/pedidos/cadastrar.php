@@ -1,12 +1,17 @@
 <?php
 require_once __DIR__ . '/../../../config/database.php';
+require_once __DIR__ . '/../../../app/models/produto.php';
+
 $dataHoje = date('Y-m-d');
 
-
-
+// Buscar produtos cadastrados
+$modelProduto = new Produto();
+if (method_exists($modelProduto, 'listar')) {
+  $listaProdutos = $modelProduto->listar();
+} else {
+  $listaProdutos = [];
+}
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -91,7 +96,7 @@ $dataHoje = date('Y-m-d');
 
 <div class="container">
   <h2>Cadastrar Pedido</h2>
-  <form action="index.php?rota=salvar-pedido" method="POST">
+  <form id="formPedido" action="index.php?rota=salvar-pedido" method="POST">
     <table>
       <tr>
         <td><label for="nome">Nome:</label></td>
@@ -104,25 +109,23 @@ $dataHoje = date('Y-m-d');
           <option value="Entrega">Entrega</option>
         </select></td>
         <td><label for="numero_pedido">Nº Pedido:</label></td>
-        <td><input type="text" name="numero_pedido" id="numero_pedido" value="<?= $proximoNumeroPedido ?>" readonly>
-        </td>
+        <td><input type="text" name="numero_pedido" id="numero_pedido" value="<?= $proximoNumeroPedido ?>" readonly></td>
       </tr>
       <tr>
-  <td><label for="quantidade">QNT:</label></td>
-  <td><input type="number" name="quantidade" id="quantidade" required></td>
-  <td><label for="produto">Produto:</label></td>
-  <td>
-    <input type="text" name="produto" id="produto" list="produtos" placeholder="Digite ou selecione o produto" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
-    <datalist id="produtos">
-      <option value="Flor 1">
-      <option value="Flor 2">
-      <option value="Flor 3">
-      <option value="Flor 4">
-      <option value="Flor 5">
-    </datalist>
-  </td>
-</tr>
+        <td><label for="quantidade">QNT:</label></td>
+        <td><input type="number" name="quantidade" id="quantidade" required></td>
+        <td><label for="produto">Produto:</label></td>
+        <td>
+  <input list="produtos" name="produto" id="produto" placeholder="Digite ou selecione o produto" required
+         style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box;">
+  <datalist id="produtos">
+    <?php foreach ($listaProdutos as $produto): ?>
+      <option value="<?= htmlspecialchars($produto['nome']) ?>">
+    <?php endforeach; ?>
+  </datalist>
+</td>
 
+      </tr>
       <tr>
         <td><label for="complemento">Complemento:</label></td>
         <td colspan="3"><input type="text" name="complemento" id="complemento"></td>
@@ -133,13 +136,12 @@ $dataHoje = date('Y-m-d');
       </tr>
       <tr>
         <td><label for="data">Data:</label></td>
-        <td colspan="3"><input type="date" name="data" id="data" value="<?= $dataHoje ?>" required>
-        </td>
+        <td colspan="3"><input type="date" name="data" id="data" value="<?= $dataHoje ?>" required></td>
       </tr>
     </table>
 
     <div class="buttons">
-      <button type="submit" class="submit">Enviar</button>
+      <button type="submit" class="submit" id="enviarButton">Enviar</button>
       <button type="button" class="cancel" id="cancelarButton">Cancelar</button>
     </div>
   </form>
@@ -148,10 +150,20 @@ $dataHoje = date('Y-m-d');
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const btnCancelar = document.getElementById("cancelarButton");
+    const form = document.getElementById("formPedido");
+    const btnEnviar = document.getElementById("enviarButton");
+
     btnCancelar.addEventListener("click", function () {
       const confirmacao = confirm("Tem certeza que deseja cancelar? Todos os dados não salvos serão perdidos.");
       if (confirmacao) {
         window.location.href = "index.php?rota=painel";
+      }
+    });
+
+    btnEnviar.addEventListener("click", function (e) {
+      const confirmarEnvio = confirm("Tem certeza que deseja enviar este pedido?");
+      if (!confirmarEnvio) {
+        e.preventDefault();
       }
     });
   });
