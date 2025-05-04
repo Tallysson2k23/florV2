@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../app/controllers/UsuarioController.php';
 require_once __DIR__ . '/../app/controllers/ProdutoController.php';
 require_once __DIR__ . '/../app/controllers/PedidoController.php';
@@ -72,31 +73,33 @@ switch ($rota) {
         $controller->painel();
         break;
 
-    // ✅ NOVA ROTA ADICIONADA COM CUIDADO
     case 'lista-pedidos':
         $controller = new PedidoController();
         $controller->listar();
         break;
 
+    case 'lista-pedidos-json':
+        $controller = new PedidoController();
+        $controller->listaPedidosJson();
+        break;
+
+    case 'atualizar-status':
+        $controller = new PedidoController();
+        $controller->atualizarStatus();
+        break;
+
+    case 'atualizar-status-pedido':
+        $controller = new PedidoController();
+        $controller->atualizarStatus();
+        break;
+
+    case 'imprimir-pedido':
+        $controller = new PedidoController();
+        $controller->imprimir();
+        break;
+
     default:
         echo "Página não encontrada.";
         break;
-
-        case 'lista-pedidos-json':
-    $controller = new PedidoController();
-    $controller->listaPedidosJson(); // este é o nome correto
-    break;
-
-        
-        case 'atualizar-status':
-             $controller = new PedidoController();
-             $controller->atualizarStatus();
-             break;
-      case 'atualizar-status-pedido':
-            $controller = new PedidoController();
-            $controller->atualizarStatus();
-            break;
-               
-
 }
 ?>

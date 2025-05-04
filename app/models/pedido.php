@@ -47,7 +47,7 @@ class Pedido {
 
     public function buscarTodosOrdenadosPorData() {
         $sql = "SELECT id, nome, tipo, produto, quantidade, complemento, obs, data_abertura, status, ordem_fila 
-                FROM pedidos ORDER BY ordem_fila DESC"; // <<< ALTERADO AQUI
+                FROM pedidos ORDER BY ordem_fila DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -66,6 +66,14 @@ class Pedido {
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function buscarPorId($id) {
+        $sql = "SELECT * FROM pedidos WHERE id = :id";
+        $stmt = $this->conn->prepare($sql); // <-- corrigido: usava $this->db
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
 ?>

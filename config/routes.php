@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../app/controllers/UsuarioController.php';
 require_once __DIR__ . '/../app/controllers/ProdutoController.php';
 require_once __DIR__ . '/../app/controllers/PedidoController.php';
@@ -12,6 +13,7 @@ $rotas['editar-produto'] = ['ProdutoController', 'editar']; // <= ADICIONE ESTA 
 $rotas['painel'] = ['UsuarioController', 'painel'];
 
 $rota = $_GET['rota'] ?? 'login';
+
 
 switch ($rota) {
     case 'login':
@@ -58,5 +60,11 @@ switch ($rota) {
         $controller->atualizarStatus();
         break;
         
+    case 'imprimir-pedido':
+        require 'app/controllers/PedidoController.php';
+        $controller = new PedidoController();
+        $controller->imprimir();
+        break;
 }
+
 ?>

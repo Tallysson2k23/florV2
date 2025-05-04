@@ -10,7 +10,7 @@ if (!isset($_SESSION['usuario_id'])) {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="5"> <!-- Esta linha atualiza a página a cada 50 segundos -->
+    <meta http-equiv="refresh" content="60"> <!-- Esta linha atualiza a página a cada 50 segundos -->
     <title>Lista de Pedidos</title>
     <style>
         body {
@@ -107,6 +107,7 @@ if (!isset($_SESSION['usuario_id'])) {
             <th>Observação</th>
             <th>Status</th>
             <th>Data</th>
+            <th>Ações</th> <!-- NOVA COLUNA -->
         </tr>
     </thead>
     <tbody id="pedido-body">
@@ -132,6 +133,13 @@ if (!isset($_SESSION['usuario_id'])) {
                     </select>
                 </td>
                 <td><?= date('d/m/Y', strtotime($pedido['data_abertura'])) ?></td>
+                <td>
+    <a href="index.php?rota=imprimir-pedido&id=<?= $pedido['id'] ?>" target="_blank">
+        <button style="padding: 5px 10px; font-size: 12px;">🖨️ Imprimir</button>
+    </a>
+</td>
+
+
             </tr>
                 
 

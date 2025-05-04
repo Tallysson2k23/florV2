@@ -16,6 +16,7 @@ FLORV2
                 cadastrar.php
                 criar.php
                 listar.php
+                imprimir.php
             produtos
                 criar.php
                 editar.php

@@ -45,9 +45,6 @@ class PedidoController
         echo json_encode($pedidos);
         exit;
     }
-    
-
-
 
 
     public function atualizarStatus()
@@ -74,6 +71,28 @@ class PedidoController
         http_response_code(405); // Método não permitido
     }
 }
+
+public function imprimir() {
+    
+    $id = $_GET['id'] ?? null;
+
+    if (!$id) {
+        echo "Pedido não encontrado.";
+        return;
+    }
+
+    $pedidoModel = new Pedido();
+    $pedido = $pedidoModel->buscarPorId($id);
+
+    if (!$pedido) {
+        echo "Pedido não encontrado.";
+        return;
+    }
+
+    include __DIR__ . '/../views/pedidos/imprimir.php';
+
+}
+
 
 }
 ?>
