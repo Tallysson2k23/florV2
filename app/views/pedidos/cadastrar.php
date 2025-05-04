@@ -1,3 +1,13 @@
+<?php
+require_once __DIR__ . '/../../../config/database.php';
+
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -94,23 +104,25 @@
           <option value="Entrega">Entrega</option>
         </select></td>
         <td><label for="numero_pedido">Nº Pedido:</label></td>
-        <td><input type="text" name="numero_pedido" id="numero_pedido" required></td>
-      </tr>
-      <tr>
-        <td><label for="quantidade">QNT:</label></td>
-        <td><input type="number" name="quantidade" id="quantidade" required></td>
-        <td><label for="produto">Produto:</label></td>
-        <td colspan="1">
-          <input list="produtos" name="produto" id="produto" placeholder="Digite ou selecione o produto" required>
-          <datalist id="produtos">
-            <option value="Flor 1">
-            <option value="Flor 2">
-            <option value="Flor 3">
-            <option value="Flor 4">
-            <option value="Flor 5">
-          </datalist>
+        <td><input type="text" name="numero_pedido" id="numero_pedido" value="<?= $proximoNumeroPedido ?>" readonly>
         </td>
       </tr>
+      <tr>
+  <td><label for="quantidade">QNT:</label></td>
+  <td><input type="number" name="quantidade" id="quantidade" required></td>
+  <td><label for="produto">Produto:</label></td>
+  <td>
+    <input type="text" name="produto" id="produto" list="produtos" placeholder="Digite ou selecione o produto" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+    <datalist id="produtos">
+      <option value="Flor 1">
+      <option value="Flor 2">
+      <option value="Flor 3">
+      <option value="Flor 4">
+      <option value="Flor 5">
+    </datalist>
+  </td>
+</tr>
+
       <tr>
         <td><label for="complemento">Complemento:</label></td>
         <td colspan="3"><input type="text" name="complemento" id="complemento"></td>

@@ -29,6 +29,14 @@ class Database {
         $db = new self();
         return $db->getConnection();
     }
+
+    public function obterUltimoNumeroPedido() {
+        $conn = Database::conectar();
+        $stmt = $conn->query("SELECT MAX(numero_pedido) AS max_num FROM pedidos");
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['max_num'] ?? 0;
+    }
+    
     
     
     

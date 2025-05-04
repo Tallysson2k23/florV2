@@ -75,5 +75,13 @@ class Pedido {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function obterUltimoNumeroPedido() {
+        $stmt = $this->conn->query("SELECT MAX(numero_pedido) AS max_num FROM pedidos");
+        $result = $stmt->fetch();
+        return $result['max_num'] ?? 0;
+    }
+    
+    
 }
 ?>
