@@ -74,11 +74,20 @@ class UsuarioController {
 
     public function listar()
 {
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+
+    if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
+        header('Location: /florV2/public/index.php?rota=login');
+        exit;
+    }
+
     $usuarioModel = new Usuario();
     $usuarios = $usuarioModel->buscarTodos();
     require_once __DIR__ . '/../views/usuario/listar.php';
-
 }
+
 
 public function salvar()
 {

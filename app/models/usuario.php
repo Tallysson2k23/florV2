@@ -35,12 +35,19 @@ class Usuario {
         return $stmt->execute();
     }
     
-    public function listar() {
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY id DESC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function listar()
+{
+    session_start();
+    if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
+        header('Location: /florV2/public/index.php?rota=login');
+        exit;
     }
+
+    $usuarioModel = new Usuario();
+    $usuarios = $usuarioModel->buscarTodos();
+    require_once __DIR__ . '/../views/usuario/listar.php';
+}
+
 
     public function buscarTodos() {
         $query = "SELECT * FROM " . $this->table_name;
@@ -58,12 +65,24 @@ class Usuario {
         return $stmt->fetch() !== false;
     }
 
-    public function excluir($id) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
+    public function excluir()
+{
+    session_start();
+    if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
+        header('Location: /florV2/public/index.php?rota=login');
+        exit;
     }
+
+    if (isset($_GET['id'])) {
+        $usuarioModel = new Usuario();
+        $id = $_GET['id'];
+        $usuarioModel->excluir($id);
+    }
+
+    header('Location: /florV2/public/index.php?rota=listar-usuarios');
+    exit;
+}
+
     
 }
 ?>

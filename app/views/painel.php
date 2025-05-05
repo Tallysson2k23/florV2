@@ -209,26 +209,33 @@ setTimeout(() => {
             <button onclick="location.href='index.php?rota=cadastrar-pedido'">Acessar</button>
         </div>
         <div class="card">
-            <h3>Cadastrar Produto</h3>
-            <button onclick="location.href='../app/views/produtos/criar.php'">Acessar</button>
-        </div>
-        <div class="card">
-            <h3>Agenda de Pedidos</h3>
-            <button onclick= >Acessar</button> <!-- "location.href='/florV2/public/index.php?rota=listar-usuarios'" -->
-        </div>
-        <div class="card">
-            <h3>Lista de Usuario</h3>
-            <button onclick="location.href='/florV2/public/index.php?rota=listar-usuarios'">Acessar</button>
-        </div>
-        <div class="card">
-            <h3>Lista de Pedidos</h3>
-            <button onclick="location.href='index.php?rota=lista-pedidos'">Acessar</button>
-        </div>
-    </div>
+    <h3>Agenda de Pedidos</h3>
+    <button onclick="location.href='index.php?rota=painel'">Acessar</button>
+</div>
 
-    <div class="logout">
-        <a href="/florV2/public/index.php?rota=logout">Sair da conta</a>
+<?php if ($_SESSION['tipo'] === 'admin'): ?>
+    <div class="card">
+        <h3>Cadastrar Produto</h3>
+        <button onclick="location.href='../app/views/produtos/criar.php'">Acessar</button>
     </div>
+    <div class="card">
+        <h3>Lista de Usuario</h3>
+        <button onclick="location.href='/florV2/public/index.php?rota=listar-usuarios'">Acessar</button>
+    </div>
+<?php endif; ?>
+
+<div class="card">
+    <h3>Lista de Pedidos</h3>
+    <button onclick="location.href='index.php?rota=lista-pedidos'">Acessar</button>
+</div>
+</div> <!-- FECHA card-container corretamente -->
+
+<!-- Botão de logout agora fora dos cards -->
+<div class="logout" style="text-align: center; margin-top: 30px;">
+    <a href="/florV2/public/index.php?rota=logout">Sair da conta</a>
+</div>
+
+
 </div>
 </body>
 </html>
