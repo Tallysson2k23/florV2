@@ -170,7 +170,6 @@ setTimeout(() => {
 </form>
 
 
-
     <ul style="width:100%; max-width:600px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 4px rgba(161, 160, 155, 0.15);">
         <?php if (count($pedidosHoje) > 0): ?>
             <?php foreach ($pedidosHoje as $pedido): ?>
