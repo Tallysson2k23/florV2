@@ -101,5 +101,54 @@ class PedidoController
         $ultimoNumero = $model->obterUltimoNumeroPedido();
         return $ultimoNumero + 1;
     }
+
+    public function cadastrarDetalhado() {
+        require_once __DIR__ . '/../views/pedidos/cadastrar_detalhado.php';
+    }
+
+    public function salvarDetalhado()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Processar os dados do formulário detalhado
+        // Exemplo:
+        $numero_pedido = $_POST['numero_pedido'];
+        $tipo = $_POST['tipo'];
+        // ... outros campos ...
+
+        // Salvar os dados usando o modelo Pedido
+        $pedidoModel = new Pedido();
+        $pedidoModel->criarDetalhado($numero_pedido, $tipo, /* outros parâmetros */);
+
+        // Redirecionar após o salvamento
+        header('Location: /florV2/public/index.php?rota=painel&sucesso=1');
+        exit;
+    }
+}
+
+public function cadastrarRetirada() {
+    require_once __DIR__ . '/../views/pedidos/cadastrar_retirada.php';
+}
+
+public function salvarRetirada() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $numero = $_POST['numero_pedido'];
+        $tipo = $_POST['tipo'];
+        $data = $_POST['data'];
+        $nome = $_POST['nome'];
+        $telefone = $_POST['telefone'];
+        $produtos = $_POST['produtos'];
+        $adicionais = $_POST['adicionais'];
+
+        // Aqui você precisa chamar o método do model para salvar. Exemplo:
+        $pedidoModel = new Pedido();
+        $pedidoModel->criarRetirada($numero, $tipo, $data, $nome, $telefone, $produtos, $adicionais);
+
+        header('Location: index.php?rota=painel&sucesso=1');
+        exit;
+    }
+}
+
+
+    
 }
 ?>

@@ -1,8 +1,7 @@
-<?php
 
-require_once __DIR__ . '/../app/controllers/UsuarioController.php';
-require_once __DIR__ . '/../app/controllers/ProdutoController.php';
-require_once __DIR__ . '/../app/controllers/PedidoController.php';
+ //<?php 
+
+/*require_once __DIR__ . '/../app/controllers/UsuarioController.php';
 
 //-----------------------------------------
 // Produtos
@@ -12,7 +11,10 @@ $rotas['excluir-produto'] = ['ProdutoController', 'excluir'];
 $rotas['editar-produto'] = ['ProdutoController', 'editar']; // <= ADICIONE ESTA LINHA
 $rotas['painel'] = ['UsuarioController', 'painel'];
 
+
 $rota = $_GET['rota'] ?? 'login';
+
+$rotas['cadastrar-pedido-detalhado'] = ['PedidoController', 'cadastrarDetalhado', 'salvar-pedido-detalhado'];
 
 
 switch ($rota) {
@@ -51,10 +53,6 @@ switch ($rota) {
         $controller->painel();
         break;
 
-    default:
-        echo "Página não encontrada.";
-        break;
-
     case 'atualizar-status':
         $controller = new PedidoController();
         $controller->atualizarStatus();
@@ -65,6 +63,25 @@ switch ($rota) {
         $controller = new PedidoController();
         $controller->imprimir();
         break;
+
+    case 'cadastrar-pedido-detalhado':
+        $controller = new PedidoController();
+        $controller->cadastrarDetalhado();
+        break;
+        
+    case 'salvar-pedido-detalhado':
+        $controller = new PedidoController();
+        $controller->salvarDetalhado();
+        break;
+       
+
+
+    default:
+    echo "Página não encontrada.";
+    break;
+        
+
 }
 
 ?>
+*/

@@ -6,7 +6,7 @@ require_once __DIR__ . '/../app/controllers/PedidoController.php';
 
 $controller = null;
 $rota = $_GET['rota'] ?? 'login';
-
+$rotas['cadastrar-pedido-detalhado'] = ['PedidoController', 'cadastrarDetalhado', 'salvar-pedido-detalhado'];
 switch ($rota) {
     case 'login':
         $controller = new UsuarioController();
@@ -98,8 +98,30 @@ switch ($rota) {
         $controller->imprimir();
         break;
 
-    default:
+        case 'cadastrar-pedido-detalhado':
+            $controller = new PedidoController();
+            $controller->cadastrarDetalhado();
+            break;
+            
+        case 'salvar-pedido-detalhado':
+            $controller = new PedidoController();
+            $controller->salvarDetalhado();
+            break;
+           
+            case 'cadastrar-pedido-retirada':
+                $controller = new PedidoController();
+                $controller->cadastrarRetirada();
+                break;
+            
+            case 'salvar-pedido-retirada':
+                $controller = new PedidoController();
+                $controller->salvarRetirada();
+                break;
+            
+    
+        default:
         echo "Página não encontrada.";
         break;
+            
 }
 ?>

@@ -47,6 +47,7 @@ foreach ($pedidosWorkflow as $pedido) {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <!-- <meta http-equiv="refresh" content="5">  Esta linha atualiza a página a cada 50 segundos -->
     <title>Painel - Flor de Cheiro</title>
     <style>
         body {
@@ -228,6 +229,14 @@ setTimeout(() => {
     <h3>Lista de Pedidos</h3>
     <button onclick="location.href='index.php?rota=lista-pedidos'">Acessar</button>
 </div>
+<div class="card">
+    <h3>Cadastro Detalhado</h3>
+    <button onclick="location.href='index.php?rota=cadastrar-pedido-detalhado'">Acessar</button>
+</div>
+
+
+
+
 </div> <!-- FECHA card-container corretamente -->
 
 <!-- Botão de logout agora fora dos cards -->

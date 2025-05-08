@@ -12,7 +12,7 @@ FLORV2
             usuario.php
         views
             pedidos
-                cadastrar_pedido.php
+                cadastrar_detalhado.php
                 cadastrar.php
                 criar.php
                 listar.php
