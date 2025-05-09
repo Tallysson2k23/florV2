@@ -109,18 +109,30 @@ class PedidoController
     public function salvarDetalhado()
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Processar os dados do formulário detalhado
-        // Exemplo:
-        $numero_pedido = $_POST['numero_pedido'];
-        $tipo = $_POST['tipo'];
-        // ... outros campos ...
-
-        // Salvar os dados usando o modelo Pedido
         $pedidoModel = new Pedido();
-        $pedidoModel->criarDetalhado($numero_pedido, $tipo, /* outros parâmetros */);
 
-        // Redirecionar após o salvamento
-        header('Location: /florV2/public/index.php?rota=painel&sucesso=1');
+        $pedidoModel->criar(
+            $_POST['remetente'] ?? $_POST['nome'] ?? null,         // nome (usa 'remetente' se vier de formulário detalhado)
+            $_POST['tipo'] ?? null,                                // tipo
+            $_POST['numero_pedido'] ?? null,                       // numero_pedido
+            $_POST['quantidade'] ?? null,                          // quantidade
+            $_POST['produtos'] ?? $_POST['produto'] ?? null,       // produto (plural ou singular)
+            $_POST['complemento'] ?? null,                         // complemento
+            $_POST['observacao'] ?? $_POST['obs'] ?? null,         // observação
+            $_POST['data'] ?? null,                                // data_abertura
+            $_POST['telefone_remetente'] ?? null,                  // telefone_remetente
+            $_POST['destinatario'] ?? null,                        // destinatario
+            $_POST['telefone_destinatario'] ?? null,               // telefone_destinatario
+            $_POST['endereco'] ?? null,                            // endereco
+            $_POST['numero'] ?? $_POST['numero_endereco'] ?? null, // numero_endereco
+            $_POST['bairro'] ?? null,                              // bairro
+            $_POST['referencia'] ?? null,                          // referencia
+            $_POST['telefone'] ?? null,                            // telefone (retirada)
+            $_POST['adicionais'] ?? null                           // adicionais
+        );
+        
+
+        header('Location: index.php?rota=painel&sucesso=1');
         exit;
     }
 }
@@ -129,19 +141,30 @@ public function cadastrarRetirada() {
     require_once __DIR__ . '/../views/pedidos/cadastrar_retirada.php';
 }
 
-public function salvarRetirada() {
+public function salvarRetirada()
+{
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $numero = $_POST['numero_pedido'];
-        $tipo = $_POST['tipo'];
-        $data = $_POST['data'];
-        $nome = $_POST['nome'];
-        $telefone = $_POST['telefone'];
-        $produtos = $_POST['produtos'];
-        $adicionais = $_POST['adicionais'];
-
-        // Aqui você precisa chamar o método do model para salvar. Exemplo:
         $pedidoModel = new Pedido();
-        $pedidoModel->criarRetirada($numero, $tipo, $data, $nome, $telefone, $produtos, $adicionais);
+
+        $pedidoModel->criar(
+            $_POST['nome'] ?? null,
+            $_POST['tipo'] ?? null,
+            $_POST['numero_pedido'] ?? null,
+            null, // quantidade
+            $_POST['produtos'] ?? null, // produto
+            null, // complemento
+            null, // observacao
+            $_POST['data'] ?? null,
+            null, // telefone_remetente
+            null, // destinatario
+            null, // telefone_destinatario
+            null, // endereco
+            null, // numero_endereco
+            null, // bairro
+            null, // referencia
+            $_POST['telefone'] ?? null,
+            $_POST['adicionais'] ?? null
+        );
 
         header('Location: index.php?rota=painel&sucesso=1');
         exit;

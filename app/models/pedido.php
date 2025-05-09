@@ -10,32 +10,56 @@ class Pedido {
         $this->conn = $database->getConnection();
     }
 
-    public function criar($nome, $tipo, $numero_pedido, $quantidade, $produto, $complemento, $obs, $data) {
-        $status = 'Pendente';
+    public function criar($nome, $tipo, $numero_pedido, $quantidade, $produto, $complemento, $obs, $data,
+                      $telefone_remetente = null, $destinatario = null, $telefone_destinatario = null,
+                      $endereco = null, $numero_endereco = null, $bairro = null, $referencia = null,
+                      $telefone = null, $adicionais = null)
+{
+    $status = 'Pendente';
 
-        $stmt = $this->conn->query("SELECT MAX(ordem_fila) as max_fila FROM pedidos");
-        $maxOrdem = $stmt->fetch(PDO::FETCH_ASSOC)['max_fila'] ?? 0;
-        $novaOrdem = $maxOrdem + 1;
+    // Pega o valor máximo da ordem atual para manter a fila correta
+    $stmtOrdem = $this->conn->query("SELECT MAX(ordem_fila) as max_fila FROM pedidos");
+    $maxOrdem = $stmtOrdem->fetch(PDO::FETCH_ASSOC)['max_fila'] ?? 0;
+    $novaOrdem = $maxOrdem + 1;
 
-        $query = "INSERT INTO " . $this->table_name . " 
-                  (nome, tipo, numero_pedido, quantidade, produto, complemento, obs, data_abertura, status, ordem_fila)
-                  VALUES (:nome, :tipo, :numero_pedido, :quantidade, :produto, :complemento, :obs, :data_abertura, :status, :ordem_fila)";
+    // Prepara o INSERT com todos os campos, inclusive os novos
+    $query = "
+        INSERT INTO pedidos (
+            nome, tipo, numero_pedido, quantidade, produto, complemento, observacao, data_abertura, status, ordem_fila,
+            telefone_remetente, destinatario, telefone_destinatario, endereco, numero_endereco, bairro, referencia,
+            telefone, adicionais
+        ) VALUES (
+            :nome, :tipo, :numero_pedido, :quantidade, :produto, :complemento, :observacao, :data_abertura, :status, :ordem_fila,
+            :telefone_remetente, :destinatario, :telefone_destinatario, :endereco, :numero_endereco, :bairro, :referencia,
+            :telefone, :adicionais
+        )
+    ";
 
-        $stmt = $this->conn->prepare($query);
+    $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':nome', $nome);
-        $stmt->bindParam(':tipo', $tipo);
-        $stmt->bindParam(':numero_pedido', $numero_pedido);
-        $stmt->bindParam(':quantidade', $quantidade);
-        $stmt->bindParam(':produto', $produto);
-        $stmt->bindParam(':complemento', $complemento);
-        $stmt->bindParam(':obs', $obs);
-        $stmt->bindParam(':data_abertura', $data);
-        $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':ordem_fila', $novaOrdem, PDO::PARAM_INT);
+    return $stmt->execute([
+        ':nome' => $nome,
+        ':tipo' => $tipo,
+        ':numero_pedido' => $numero_pedido,
+        ':quantidade' => $quantidade,
+        ':produto' => $produto,
+        ':complemento' => $complemento,
+        ':observacao' => $obs,
+        ':data_abertura' => $data,
+        ':status' => $status,
+        ':ordem_fila' => $novaOrdem,
+        ':telefone_remetente' => $telefone_remetente,
+        ':destinatario' => $destinatario,
+        ':telefone_destinatario' => $telefone_destinatario,
+        ':endereco' => $endereco,
+        ':numero_endereco' => $numero_endereco,
+        ':bairro' => $bairro,
+        ':referencia' => $referencia,
+        ':telefone' => $telefone,
+        ':adicionais' => $adicionais
+    ]);
+}
 
-        return $stmt->execute();
-    }
 
     public function listarRecentes($limite = 5) {
         $sql = "SELECT * FROM pedidos ORDER BY data_abertura DESC LIMIT :limite";
