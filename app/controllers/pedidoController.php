@@ -17,16 +17,16 @@ class PedidoController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pedidoModel = new Pedido();
 
-            $nome = $_POST['nome'];
-            $tipo = $_POST['tipo'];
-            $numero_pedido = $_POST['numero_pedido'];
-            $quantidade = $_POST['quantidade'];
-            $produto = $_POST['produto'];
-            $complemento = $_POST['complemento'];
-            $obs = $_POST['observacao'] ?? null;
-            $data = $_POST['data'];
-
-            $pedidoModel->criar($nome, $tipo, $numero_pedido, $quantidade, $produto, $complemento, $obs, $data);
+            $pedidoModel->criar(
+                $_POST['nome'] ?? null,
+                $_POST['tipo'] ?? null,
+                $_POST['numero_pedido'] ?? null,
+                $_POST['quantidade'] ?? null,
+                $_POST['produto'] ?? null,
+                $_POST['complemento'] ?? null,
+                $_POST['observacao'] ?? null,
+                $_POST['data'] ?? null
+            );
 
             header('Location: /florV2/public/index.php?rota=painel&sucesso=1');
             exit;
@@ -41,7 +41,8 @@ class PedidoController
         require_once __DIR__ . '/../views/pedidos/lista.php';
     }
 
-    public function listaPedidosJson() {
+    public function listaPedidosJson()
+    {
         $pedidoModel = new Pedido();
         $pedidos = $pedidoModel->buscarTodosOrdenadosPorData();
 
@@ -58,17 +59,10 @@ class PedidoController
 
             if ($id && $status) {
                 $pedidoModel = new Pedido();
-                $sucesso = $pedidoModel->atualizarStatus($id, $status);
-
-                if ($sucesso) {
-                    http_response_code(200);
-                } else {
-                    http_response_code(500);
-                    error_log("Erro ao atualizar status do pedido ID $id para $status");
-                }
+                $pedidoModel->atualizarStatus($id, $status);
+                http_response_code(200);
             } else {
                 http_response_code(400);
-                error_log("Dados ausentes para atualizar status: id=$id, status=$status");
             }
         } else {
             http_response_code(405);
@@ -78,7 +72,6 @@ class PedidoController
     public function imprimir()
     {
         $id = $_GET['id'] ?? null;
-
         if (!$id) {
             echo "Pedido não encontrado.";
             return;
@@ -98,80 +91,71 @@ class PedidoController
     public function gerarNumeroPedido()
     {
         $model = new Pedido();
-        $ultimoNumero = $model->obterUltimoNumeroPedido();
-        return $ultimoNumero + 1;
+        return $model->obterUltimoNumeroPedido() + 1;
     }
 
-    public function cadastrarDetalhado() {
+    public function cadastrarDetalhado()
+    {
         require_once __DIR__ . '/../views/pedidos/cadastrar_detalhado.php';
     }
 
     public function salvarDetalhado()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $pedidoModel = new Pedido();
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $pedidoModel = new Pedido();
 
-        $pedidoModel->criar(
-            $_POST['remetente'] ?? $_POST['nome'] ?? null,         // nome (usa 'remetente' se vier de formulário detalhado)
-            $_POST['tipo'] ?? null,                                // tipo
-            $_POST['numero_pedido'] ?? null,                       // numero_pedido
-            $_POST['quantidade'] ?? null,                          // quantidade
-            $_POST['produtos'] ?? $_POST['produto'] ?? null,       // produto (plural ou singular)
-            $_POST['complemento'] ?? null,                         // complemento
-            $_POST['observacao'] ?? $_POST['obs'] ?? null,         // observação
-            $_POST['data'] ?? null,                                // data_abertura
-            $_POST['telefone_remetente'] ?? null,                  // telefone_remetente
-            $_POST['destinatario'] ?? null,                        // destinatario
-            $_POST['telefone_destinatario'] ?? null,               // telefone_destinatario
-            $_POST['endereco'] ?? null,                            // endereco
-            $_POST['numero'] ?? $_POST['numero_endereco'] ?? null, // numero_endereco
-            $_POST['bairro'] ?? null,                              // bairro
-            $_POST['referencia'] ?? null,                          // referencia
-            $_POST['telefone'] ?? null,                            // telefone (retirada)
-            $_POST['adicionais'] ?? null                           // adicionais
-        );
-        
+            $pedidoModel->criar(
+                $_POST['remetente'] ?? $_POST['nome'] ?? null,
+                $_POST['tipo'] ?? null,
+                $_POST['numero_pedido'] ?? null,
+                $_POST['quantidade'] ?? null,
+                $_POST['produtos'] ?? $_POST['produto'] ?? null,
+                $_POST['complemento'] ?? null,
+                $_POST['observacao'] ?? $_POST['obs'] ?? null,
+                $_POST['data'] ?? null,
+                $_POST['telefone_remetente'] ?? null,
+                $_POST['destinatario'] ?? null,
+                $_POST['telefone_destinatario'] ?? null,
+                $_POST['endereco'] ?? null,
+                $_POST['numero'] ?? null,
+                $_POST['bairro'] ?? null,
+                $_POST['referencia'] ?? null,
+                $_POST['telefone'] ?? null,
+                $_POST['adicionais'] ?? null
+            );
 
-        header('Location: index.php?rota=painel&sucesso=1');
-        exit;
+            header('Location: index.php?rota=painel&sucesso=1');
+            exit;
+        }
     }
-}
 
-public function cadastrarRetirada() {
-    require_once __DIR__ . '/../views/pedidos/cadastrar_retirada.php';
-}
-
-public function salvarRetirada()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $pedidoModel = new Pedido();
-
-        $pedidoModel->criar(
-            $_POST['nome'] ?? null,
-            $_POST['tipo'] ?? null,
-            $_POST['numero_pedido'] ?? null,
-            null, // quantidade
-            $_POST['produtos'] ?? null, // produto
-            null, // complemento
-            null, // observacao
-            $_POST['data'] ?? null,
-            null, // telefone_remetente
-            null, // destinatario
-            null, // telefone_destinatario
-            null, // endereco
-            null, // numero_endereco
-            null, // bairro
-            null, // referencia
-            $_POST['telefone'] ?? null,
-            $_POST['adicionais'] ?? null
-        );
-
-        header('Location: index.php?rota=painel&sucesso=1');
-        exit;
+    public function cadastrarRetirada()
+    {
+        require_once __DIR__ . '/../views/pedidos/cadastrar_retirada.php';
     }
-}
 
+    public function salvarRetirada()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $pedidoModel = new Pedido();
 
-    
+            $pedidoModel->criar(
+                $_POST['nome'] ?? null,
+                $_POST['tipo'] ?? null,
+                $_POST['numero_pedido'] ?? null,
+                $_POST['quantidade'] ?? 1, // padrão para retirada
+                $_POST['produtos'] ?? null,
+                $_POST['complemento'] ?? null,
+                $_POST['observacao'] ?? $_POST['obs'] ?? null,
+                $_POST['data'] ?? null,
+                null, null, null, null, null, null, null,
+                $_POST['telefone'] ?? null,
+                $_POST['adicionais'] ?? null
+            );
+
+            header('Location: index.php?rota=painel&sucesso=1');
+            exit;
+        }
+    }
 }
 ?>

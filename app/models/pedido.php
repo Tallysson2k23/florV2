@@ -70,8 +70,9 @@ class Pedido {
     }
 
     public function buscarTodosOrdenadosPorData() {
-        $sql = "SELECT id, nome, tipo, produto, quantidade, complemento, obs, data_abertura, status, ordem_fila 
-                FROM pedidos ORDER BY ordem_fila DESC";
+        $sql = "SELECT id, nome, tipo, produto, quantidade, complemento, observacao, data_abertura, status, ordem_fila 
+        FROM pedidos ORDER BY ordem_fila DESC";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

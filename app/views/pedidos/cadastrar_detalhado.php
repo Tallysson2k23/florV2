@@ -145,6 +145,17 @@ $dataHoje = date('Y-m-d');
             <button type="submit" class="submit">Salvar</button>
             <button type="button" class="cancel" onclick="window.location.href='index.php?rota=painel'">Cancelar</button>
         </div>
+        <tr>
+    <td><label for="quantidade">Quantidade:</label></td>
+    <td><input type="number" name="quantidade" id="quantidade"></td>
+    <td><label for="complemento">Complemento:</label></td>
+    <td><input type="text" name="complemento" id="complemento"></td>
+</tr>
+<tr>
+    <td><label for="observacao">Observação:</label></td>
+    <td colspan="3"><textarea name="observacao" id="observacao"></textarea></td>
+</tr>
+
     </form>
 </div>
 <script>

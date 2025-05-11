@@ -120,7 +120,7 @@ if (!isset($_SESSION['usuario_id'])) {
                 <td><?= htmlspecialchars($pedido['produto']) ?></td>
                 <td><?= htmlspecialchars($pedido['quantidade']) ?></td>
                 <td><?= htmlspecialchars($pedido['complemento']) ?></td>
-                <td><?= htmlspecialchars($pedido['obs']) ?></td>
+                <td><?= htmlspecialchars($pedido['observacao']) ?></td>
                 <td>
                     <select class="status-select" data-id="<?= $pedido['id'] ?>">
                         <?php
@@ -203,7 +203,7 @@ function carregarPedidos() {
                     <td>${pedido.produto}</td>
                     <td>${pedido.quantidade}</td>
                     <td>${pedido.complemento}</td>
-                    <td>${pedido.obs}</td>
+                    <td>${pedido.observacao}</td>
                     <td>
                         <select class="status-select" data-id="${pedido.id}">
                             <option value="Pendente"   ${status === 'Pendente' ? 'selected' : ''}>Pendente</option>
