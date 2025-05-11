@@ -1,4 +1,3 @@
-
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -11,24 +10,19 @@ if (!isset($_SESSION['usuario_id'])) {
 $nomeUsuario = $_SESSION['usuario_nome'];
 require_once __DIR__ . '/../../config/database.php';
 
-// Conexão com o banco
 $conn = Database::conectar();
 $db = new Database();
 $pdo = $db->getConnection();
 
-// Pega a data enviada por GET ou usa a de hoje
 $dataSelecionada = $_GET['data'] ?? date('Y-m-d');
 
-// Buscar pedidos da data selecionada (Agenda)
 $stmtAgenda = $pdo->prepare("SELECT * FROM pedidos WHERE data_abertura = ?");
 $stmtAgenda->execute([$dataSelecionada]);
 $pedidosHoje = $stmtAgenda->fetchAll(PDO::FETCH_ASSOC);
 
-// Buscar todos para o kanban
 $stmtWorkflow = $pdo->query("SELECT * FROM pedidos ORDER BY data_abertura, hora");
 $pedidosWorkflow = $stmtWorkflow->fetchAll(PDO::FETCH_ASSOC);
 
-// Agrupar por status
 $statusAgrupado = [
     'Pendente' => [],
     'Produção' => [],
@@ -47,7 +41,6 @@ foreach ($pedidosWorkflow as $pedido) {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <!-- <meta http-equiv="refresh" content="5">  Esta linha atualiza a página a cada 50 segundos -->
     <title>Painel - Flor de Cheiro</title>
     <style>
         body {
@@ -117,80 +110,130 @@ foreach ($pedidosWorkflow as $pedido) {
         .logout a:hover {
             text-decoration: underline;
         }
+        .agenda-box {
+            position: relative;
+            background: #fff;
+            padding: 20px 20px 50px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(161, 160, 155, 0.15);
+            width: 100%;
+            max-width: 600px;
+        }
+        .agenda-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+            max-height: 130px;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .agenda-list.expandido {
+            max-height: 1000px;
+        }
+        .agenda-list li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+        }
+        .toggle-agenda {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .toggle-agenda.girado {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body>
 
-<?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 1): ?>
-<div class="flash-message" id="flash-msg">Pedido salvo com sucesso!</div>
-<script>
-setTimeout(() => {
-    const msg = document.getElementById('flash-msg');
-    if (msg) msg.style.display = 'none';
-}, 3000);
-</script>
-<style>
-.flash-message {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    z-index: 1000;
-    font-weight: bold;
-    animation: fadeIn 0.5s;
-}
-@keyframes fadeIn {
-    from { opacity: 0; right: 0; }
-    to { opacity: 1; right: 20px; }
-}
-</style>
-<?php endif; ?>
-
 <header>𝓕𝓵𝓸𝓻 𝓭𝓮 𝓒𝓱𝓮𝓲𝓻𝓸 </header>
 <div class="container">
-<form method="get" action="index.php" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+<form method="get" action="index.php" style="text-align:center; margin-bottom: 20px;">
     <input type="hidden" name="rota" value="painel">
-    <label for="data" style="font-weight: bold; color: #fff; font-size: 16px; display: flex; align-items: center;">
+    <label for="data" style="font-weight: bold; color: #fff; font-size: 24px; display: inline-flex; align-items: center; gap: 8px;">
         📅 Agenda do Dia:
+        <input type="date" id="data" name="data" value="<?= htmlspecialchars($dataSelecionada) ?>" onchange="this.form.submit()" style="
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            padding: 0 8px;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align: left;
+        ">
     </label>
-    <input type="date" id="data" name="data" value="<?= htmlspecialchars($dataSelecionada) ?>" onchange="this.form.submit()" style="
-        background: transparent;
-        border: none;
-        color: #fff;
-        font-size: 16px;
-        padding: 0;
-        outline: none;
-        appearance: none;
-        -webkit-appearance: none;
-        text-align: center;
-    ">
 </form>
 
-
-    <ul style="width:100%; max-width:600px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 4px rgba(161, 160, 155, 0.15);">
-        <?php if (count($pedidosHoje) > 0): ?>
-            <?php foreach ($pedidosHoje as $pedido): ?>
-                <li style="margin-bottom:10px;">
-                    <strong><?= htmlspecialchars($pedido['hora']) ?></strong> - <?= htmlspecialchars($pedido['nome']) ?> (<?= htmlspecialchars($pedido['produto']) ?>)
-                </li>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <li>Nenhum pedido para esta data.</li>
-        <?php endif; ?>
+<div class="agenda-box">
+    <ul id="lista-agenda" class="agenda-list">
+        <?php foreach ($pedidosHoje as $pedido): ?>
+            <li><?= htmlspecialchars($pedido['nome']) ?> (<?= htmlspecialchars($pedido['produto']) ?>)</li>
+        <?php endforeach; ?>
     </ul>
+
+    <?php if (count($pedidosHoje) > 3): ?>
+        <button id="toggle-btn" class="toggle-agenda" onclick="alternarLista()">⬇🌹</button>
+    <?php endif; ?>
+</div>
+
+<script>
+function alternarLista() {
+    const lista = document.getElementById('lista-agenda');
+    const btn = document.getElementById('toggle-btn');
+
+    lista.classList.toggle('expandido');
+    btn.classList.toggle('girado');
+    btn.innerHTML = lista.classList.contains('expandido') ? '⬇🌹' : '⬇🌹';
+}
+
+// Garante que ao carregar a página a lista esteja recolhida
+document.addEventListener('DOMContentLoaded', () => {
+    const lista = document.getElementById('lista-agenda');
+    const btn = document.getElementById('toggle-btn');
+    lista.classList.remove('expandido');
+    if (btn) btn.classList.remove('girado');
+});
+</script>
+
+
+<!-- (restante do conteúdo permanece igual) -->
+
+
 
     <h2 style="margin-top:50px; color:#000;">🔁 Acompanhar Pedidos</h2>
     <div style="display:flex; gap:20px; overflow-x:auto; padding:20px 0;">
-        <?php foreach ($statusAgrupado as $status => $lista): ?>
-            <div style="flex:1; min-width:200px; background:#f0f0f0; padding:10px; border-radius:10px;">
+    <?php foreach ($statusAgrupado as $status => $lista): 
+        $corFundo = match($status) {
+            'Pendente' => '#e74c3c',
+            'Produção' => '#f39c12',
+            'Pronto' => '#2980b9',
+            'Entregue' => '#1abc9c',
+            default => '#ccc'
+        };
+    ?>
+        <div style="flex:1; min-width:200px; background:<?= $corFundo ?>; padding:10px; border-radius:10px; color:white;">
+
                 <h3 style="text-align:center;"><?= $status ?></h3>
                 <?php if (count($lista) > 0): ?>
                     <?php foreach ($lista as $pedido): ?>
-                        <div style="background:#fff; margin-bottom:10px; padding:10px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+                        <div style="
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    color: #000;
+    font-size: 14px;
+">
+
                             <strong>#<?= $pedido['id'] ?></strong><br>
                             <?= htmlspecialchars($pedido['nome']) ?><br>
                             <small><?= htmlspecialchars($pedido['produto']) ?> - <?= date('d/m', strtotime($pedido['data_abertura'])) ?> às <?= $pedido['hora'] ?></small>
@@ -246,5 +289,10 @@ setTimeout(() => {
 
 
 </div>
+
+
+
+</script>
+
 </body>
 </html>
