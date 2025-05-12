@@ -108,7 +108,7 @@ foreach ($pedidosWorkflow as $pedido) {
         .agenda-list li {
     padding: 12px 16px;
     margin-bottom: 6px;
-    background-color: #f9f9f9;
+    background-color:rgba(165, 146, 146, 0.45);
     border-radius: 6px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     font-size: 16px;
