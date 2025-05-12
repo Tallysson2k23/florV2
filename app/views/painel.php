@@ -98,7 +98,7 @@ foreach ($pedidosWorkflow as $pedido) {
             list-style: none;
             padding-left: 0;
             margin: 0;
-            max-height: 130px;
+            max-height: 150px;
             overflow: hidden;
             transition: max-height 0.4s ease;
         }
