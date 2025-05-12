@@ -36,88 +36,63 @@ foreach ($pedidosWorkflow as $pedido) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="5"> <!-- Esta linha atualiza a página a cada 50 segundos -->
     <title>Painel - Flor de Cheiro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <style>
         body {
             margin: 0;
-            padding: 0;
-            background-color:rgb(104, 99, 99);
+            background-color: #f4f5f7;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #333;
         }
         header {
-            background-color:rgb(0, 3, 4);
+            background-color:rgb(10, 10, 11);
             color: white;
             padding: 20px;
             text-align: center;
-            font-size: 22px;
-            font-weight: 500;
+            font-size: 24px;
+            font-weight: bold;
         }
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: auto;
         }
         h2 {
-            margin-bottom: 30px;
-            font-weight: 400;
-        }
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 900px;
-        }
-        .card {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            color: #172b4d;
             text-align: center;
-            transition: transform 0.2s ease;
-        }
-        .card:hover { transform: translateY(-5px); }
-        .card button {
-            background-color: #5aac44;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            margin-top: 10px;
-            transition: background-color 0.2s;
-        }
-        .card button:hover { background-color: #519839; }
-        .logout {
             margin-top: 30px;
-            color: #555;
-            font-size: 14px;
         }
-        .logout a {
-            color: rgb(255, 25, 0);
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
+        form label {
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            color: #333;
         }
-        .logout a:hover {
-            text-decoration: underline;
-        }
+        form input[type="date"] {
+    font-size: 16px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #333;
+     font-weight: bold;
+}
+
         .agenda-box {
-            position: relative;
-            background: #fff;
-            padding: 20px 20px 50px;
+            background: #ffffff;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(161, 160, 155, 0.15);
-            width: 100%;
-            max-width: 600px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
         .agenda-list {
             list-style: none;
@@ -131,44 +106,104 @@ foreach ($pedidosWorkflow as $pedido) {
             max-height: 1000px;
         }
         .agenda-list li {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            font-size: 16px;
-        }
+    padding: 12px 16px;
+    margin-bottom: 6px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-size: 16px;
+}
+
         .toggle-agenda {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
             background: none;
             border: none;
             font-size: 20px;
             cursor: pointer;
-            transition: transform 0.3s;
+            margin-top: -10px;
+            float: right;
         }
-        .toggle-agenda.girado {
-            transform: rotate(180deg);
+        .status-columns {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+        .status-column {
+            background: #ebecf0;
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 250px;
+            flex: 1;
+        }
+        .status-column h3 {
+            text-align: center;
+            color: #333;
+        }
+        .pedido-card {
+            background: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 14px;
+            color: #333;
+        }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card button {
+            background-color: #5aac44;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        .card button:hover {
+            background-color: #519839;
+        }
+        .logout {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .logout a {
+            color: crimson;
+            font-weight: bold;
+            font-size: 18px;
+            text-decoration: none;
+        }
+        .logout a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-
 <header>𝓕𝓵𝓸𝓻 𝓭𝓮 𝓒𝓱𝓮𝓲𝓻𝓸 </header>
+<!-- <h2>Olá, <?= htmlspecialchars($nomeUsuario) ?>!</h2> -->
 <div class="container">
 <form method="get" action="index.php" style="text-align:center; margin-bottom: 20px;">
     <input type="hidden" name="rota" value="painel">
-    <label for="data" style="font-weight: bold; color: #fff; font-size: 24px; display: inline-flex; align-items: center; gap: 8px;">
-        📅 Agenda do Dia:
-        <input type="date" id="data" name="data" value="<?= htmlspecialchars($dataSelecionada) ?>" onchange="this.form.submit()" style="
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 22px;
-            padding: 0 8px;
-            outline: none;
-            appearance: none;
-            -webkit-appearance: none;
-            text-align: left;
-        ">
+    <label for="data">
+    <strong> Agenda do Dia:</strong>
+
+        <input type="date" id="data" name="data" value="<?= htmlspecialchars($dataSelecionada) ?>" onchange="this.form.submit()">
     </label>
 </form>
 
@@ -178,121 +213,84 @@ foreach ($pedidosWorkflow as $pedido) {
             <li><?= htmlspecialchars($pedido['nome']) ?> (<?= htmlspecialchars($pedido['produto']) ?>)</li>
         <?php endforeach; ?>
     </ul>
-
     <?php if (count($pedidosHoje) > 3): ?>
-        <button id="toggle-btn" class="toggle-agenda" onclick="alternarLista()">⬇🌹</button>
+        <div style="text-align: right; margin-top: 20px;">
+    <button id="toggle-btn" class="toggle-agenda" onclick="alternarLista()">⬇🌹</button>
+</div>
+
     <?php endif; ?>
 </div>
 
+<h2>Status dos Pedidos</h2>
+<div class="status-columns">
+<?php foreach ($statusAgrupado as $status => $lista): 
+    $corFundoClaro = match($status) {
+        'Pendente' => '#F08080',     // vermelho claro
+        'Produção' => '#DEB887',     // laranja claro
+        'Pronto'   => '#87CEFA',     // azul claro
+        'Entregue' => '#00FA9A',     // verde claro
+        default    => '#f4f5f7'
+    };
+?>
+    <div class="status-column" style="background-color: <?= $corFundoClaro ?>;">
+
+        <h3><?= $status ?></h3>
+        <?php if (count($lista) > 0): ?>
+            <?php foreach ($lista as $pedido): ?>
+                <div class="pedido-card">
+                    <strong>#<?= $pedido['id'] ?></strong><br>
+                    <?= htmlspecialchars($pedido['nome']) ?><br>
+                    <small><?= htmlspecialchars($pedido['produto']) ?> - <?= date('d/m', strtotime($pedido['data_abertura'])) ?> às <?= $pedido['hora'] ?></small>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p style="text-align:center; color:#999;">Nenhum</p>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+</div>
+
+
+<div class="card-container">
+    <div class="card">
+        <h3>Cadastrar Pedido</h3>
+        <button onclick="location.href='index.php?rota=cadastrar-pedido'">Acessar</button>
+    </div>
+    <div class="card">
+        <h3>Agenda de Pedidos</h3>
+        <button onclick="location.href='index.php?rota=painel'">Acessar</button>
+    </div>
+    <?php if ($_SESSION['tipo'] === 'admin'): ?>
+        <div class="card">
+            <h3>Cadastrar Produto</h3>
+            <button onclick="location.href='../app/views/produtos/criar.php'">Acessar</button>
+        </div>
+        <div class="card">
+            <h3>Lista de Usuários</h3>
+            <button onclick="location.href='index.php?rota=listar-usuarios'">Acessar</button>
+        </div>
+    <?php endif; ?>
+    <div class="card">
+        <h3>Lista de Pedidos</h3>
+        <button onclick="location.href='index.php?rota=lista-pedidos'">Acessar</button>
+    </div>
+    <div class="card">
+        <h3>Cadastro Detalhado</h3>
+        <button onclick="location.href='index.php?rota=cadastrar-pedido-detalhado'">Acessar</button>
+    </div>
+</div>
+
+<div class="logout">
+    <a href="/florV2/public/index.php?rota=logout">Sair da conta</a>
+</div>
+</div>
 <script>
 function alternarLista() {
     const lista = document.getElementById('lista-agenda');
     const btn = document.getElementById('toggle-btn');
-
     lista.classList.toggle('expandido');
     btn.classList.toggle('girado');
-    btn.innerHTML = lista.classList.contains('expandido') ? '⬇🌹' : '⬇🌹';
 }
-
-// Garante que ao carregar a página a lista esteja recolhida
-document.addEventListener('DOMContentLoaded', () => {
-    const lista = document.getElementById('lista-agenda');
-    const btn = document.getElementById('toggle-btn');
-    lista.classList.remove('expandido');
-    if (btn) btn.classList.remove('girado');
-});
 </script>
-
-
-<!-- (restante do conteúdo permanece igual) -->
-
-
-
-    <h2 style="margin-top:50px; color:#000;">🔁 Acompanhar Pedidos</h2>
-    <div style="display:flex; gap:20px; overflow-x:auto; padding:20px 0;">
-    <?php foreach ($statusAgrupado as $status => $lista): 
-        $corFundo = match($status) {
-            'Pendente' => '#e74c3c',
-            'Produção' => '#f39c12',
-            'Pronto' => '#2980b9',
-            'Entregue' => '#1abc9c',
-            default => '#ccc'
-        };
-    ?>
-        <div style="flex:1; min-width:200px; background:<?= $corFundo ?>; padding:10px; border-radius:10px; color:white;">
-
-                <h3 style="text-align:center;"><?= $status ?></h3>
-                <?php if (count($lista) > 0): ?>
-                    <?php foreach ($lista as $pedido): ?>
-                        <div style="
-    background: #fff;
-    margin-bottom: 10px;
-    padding: 12px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-    color: #000;
-    font-size: 14px;
-">
-
-                            <strong>#<?= $pedido['id'] ?></strong><br>
-                            <?= htmlspecialchars($pedido['nome']) ?><br>
-                            <small><?= htmlspecialchars($pedido['produto']) ?> - <?= date('d/m', strtotime($pedido['data_abertura'])) ?> às <?= $pedido['hora'] ?></small>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p style="text-align:center; color:#999;">Nenhum</p>
-                <?php endif; ?>
-            </div>
-        <?php endforeach; ?>
-    </div>
-
-    <h2 style="color:#000;">Olá, <?= htmlspecialchars($nomeUsuario) ?>!</h2>
-    <div class="card-container">
-        <div class="card">
-            <h3>Cadastrar Pedido</h3>
-            <button onclick="location.href='index.php?rota=cadastrar-pedido'">Acessar</button>
-        </div>
-        <div class="card">
-    <h3>Agenda de Pedidos</h3>
-    <button onclick="location.href='index.php?rota=painel'">Acessar</button>
-</div>
-
-<?php if ($_SESSION['tipo'] === 'admin'): ?>
-    <div class="card">
-        <h3>Cadastrar Produto</h3>
-        <button onclick="location.href='../app/views/produtos/criar.php'">Acessar</button>
-    </div>
-    <div class="card">
-        <h3>Lista de Usuario</h3>
-        <button onclick="location.href='/florV2/public/index.php?rota=listar-usuarios'">Acessar</button>
-    </div>
-<?php endif; ?>
-
-<div class="card">
-    <h3>Lista de Pedidos</h3>
-    <button onclick="location.href='index.php?rota=lista-pedidos'">Acessar</button>
-</div>
-<div class="card">
-    <h3>Cadastro Detalhado</h3>
-    <button onclick="location.href='index.php?rota=cadastrar-pedido-detalhado'">Acessar</button>
-</div>
-
-
-
-
-</div> <!-- FECHA card-container corretamente -->
-
-<!-- Botão de logout agora fora dos cards -->
-<div class="logout" style="text-align: center; margin-top: 30px;">
-    <a href="/florV2/public/index.php?rota=logout">Sair da conta</a>
-</div>
-
-
-</div>
-
-
-
-</script>
-
 </body>
 </html>
