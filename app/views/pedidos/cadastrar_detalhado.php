@@ -141,13 +141,7 @@ $dataHoje = date('Y-m-d');
                 <td colspan="3"><textarea name="adicionais" id="adicionais" placeholder=""></textarea></td>
             </tr>
         </table>
-
-        <div class="buttons">
-    <button type="submit" id="enviarButton" class="submit">Salvar</button>
-    <button type="button" id="cancelarButton" class="cancel">Cancelar</button>
-</div>
-
-        <tr>
+<tr>
     <td><label for="quantidade">Quantidade:</label></td>
     <td><input type="number" name="quantidade" id="quantidade"></td>
     <td><label for="complemento">Complemento:</label></td>
@@ -157,6 +151,11 @@ $dataHoje = date('Y-m-d');
     <td><label for="observacao">Observação:</label></td>
     <td colspan="3"><textarea name="observacao" id="observacao"></textarea></td>
 </tr>
+        <div class="buttons">
+    <button type="submit" id="enviarButton" class="submit">Salvar</button>
+    <button type="button" id="cancelarButton" class="cancel">Cancelar</button>
+</div>
+
 
     </form>
 </div>
