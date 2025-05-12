@@ -192,9 +192,59 @@ foreach ($pedidosWorkflow as $pedido) {
         .logout a:hover {
             text-decoration: underline;
         }
+
+        .menu-lateral {
+    position: fixed;
+    top: 0;
+    left: -289px;
+    width: 250px;
+    height: 100%;
+    background-color:rgb(5, 5, 5);
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+    transition: left 0.3s ease;
+    z-index: 999;
+}
+
+.menu-lateral p {
+    margin-top: 60px;
+    font-size: 18px;
+}
+
+.fechar-menu {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.btn-menu {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: transparent;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: white;
+    z-index: 1000;
+}
+
     </style>
 </head>
 <body>
+<div id="menu-lateral" class="menu-lateral">
+    <span class="fechar-menu" onclick="toggleMenu()">×</span>
+    <p>🙋🏻‍♂️ Olá <strong><?= htmlspecialchars($nomeUsuario) ?></strong></p>
+</div>
+
+<button class="btn-menu" onclick="toggleMenu()">☰</button>
+
+
+
+
 <header>𝓕𝓵𝓸𝓻 𝓭𝓮 𝓒𝓱𝓮𝓲𝓻𝓸 </header>
 <!-- <h2>Olá, <?= htmlspecialchars($nomeUsuario) ?>!</h2> -->
 <div class="container">
@@ -292,5 +342,13 @@ function alternarLista() {
     btn.classList.toggle('girado');
 }
 </script>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById('menu-lateral');
+    menu.style.left = menu.style.left === '0px' ? '-289px' : '0px';
+}
+</script>
+
 </body>
 </html>
