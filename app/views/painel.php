@@ -360,8 +360,8 @@ foreach ($pedidosWorkflow as $pedido) {
         <button onclick="location.href='index.php?rota=cadastrar-pedido'">Acessar</button>
     </div>
     <div class="card">
-        <h3>Agenda de Pedidos</h3>
-        <button onclick="location.href='index.php?rota=painel'">Acessar</button>
+        <h3>Cadastrar Entrega/Retirada</h3>
+        <button onclick="location.href='index.php?rota=cadastrar-pedido-detalhado'">Acessar</button>
     </div>
     <?php if ($_SESSION['tipo'] === 'admin'): ?>
         <div class="card">
@@ -378,9 +378,10 @@ foreach ($pedidosWorkflow as $pedido) {
         <button onclick="location.href='index.php?rota=lista-pedidos'">Acessar</button>
     </div>
     <div class="card">
-        <h3>Cadastro Detalhado</h3>
-        <button onclick="location.href='index.php?rota=cadastrar-pedido-detalhado'">Acessar</button>
+        <h3>Agenda de Pedidos</h3>
+        <button onclick="location.href='index.php?rota=painel'">Acessar</button>
     </div>
+
 </div>
 
 <div class="logout">

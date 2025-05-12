@@ -74,7 +74,8 @@ $dataHoje = date('Y-m-d');
 
 <div class="container">
     <h2>Cadastrar de Pedido</h2>
-    <form action="index.php?rota=salvar-pedido-retirada" method="POST">
+    <form id="formPedido" action="index.php?rota=salvar-pedido-retirada" method="POST">
+
         <table>
             <tr>
                 <td><label for="numero_pedido">Nº Pedido:</label></td>
@@ -110,9 +111,10 @@ $dataHoje = date('Y-m-d');
             </tr>
         </table>
         <div class="buttons">
-            <button type="submit" class="submit">Salvar</button>
-            <button type="button" class="cancel" onclick="window.location.href='index.php?rota=painel'">Cancelar</button>
-        </div>
+    <button type="submit" id="enviarButton" class="submit">Salvar</button>
+    <button type="button" id="cancelarButton" class="cancel">Cancelar</button>
+</div>
+
         <tr>
     <td><label for="quantidade">Quantidade:</label></td>
     <td><input type="number" name="quantidade" id="quantidade"></td>
@@ -133,6 +135,29 @@ function trocarFormulario(valor) {
     }
 }
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const btnCancelar = document.getElementById("cancelarButton");
+    const form = document.getElementById("formPedido");
+    const btnEnviar = document.getElementById("enviarButton");
+
+    btnCancelar.addEventListener("click", function () {
+      const confirmacao = confirm("Tem certeza que deseja cancelar? Todos os dados não salvos serão perdidos.");
+      if (confirmacao) {
+        window.location.href = "index.php?rota=painel";
+      }
+    });
+
+    btnEnviar.addEventListener("click", function (e) {
+      const confirmarEnvio = confirm("Tem certeza que deseja enviar este pedido?");
+      if (!confirmarEnvio) {
+        e.preventDefault();
+      }
+    });
+  });
+</script>
+
 
 </body>
 </html>
