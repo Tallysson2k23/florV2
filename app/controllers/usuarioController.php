@@ -115,15 +115,25 @@ public function salvar()
 
 public function excluir()
 {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
+        header('Location: /florV2/public/index.php?rota=login');
+        exit;
+    }
+
     if (isset($_GET['id'])) {
+        require_once __DIR__ . '/../models/usuario.php';
         $usuarioModel = new Usuario();
-        $id = $_GET['id'];
-        $usuarioModel->excluir($id);
+        $usuarioModel->excluir($_GET['id']);
     }
 
     header('Location: /florV2/public/index.php?rota=listar-usuarios');
     exit;
 }
+
 
 public function painel() {
     session_start();

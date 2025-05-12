@@ -65,23 +65,19 @@ class Usuario {
         return $stmt->fetch() !== false;
     }
 
-    public function excluir()
+   public function excluir($id)
 {
-    session_start();
-    if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'admin') {
-        header('Location: /florV2/public/index.php?rota=login');
-        exit;
-    }
+    $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    return $stmt->execute();
 
-    if (isset($_GET['id'])) {
-        $usuarioModel = new Usuario();
-        $id = $_GET['id'];
-        $usuarioModel->excluir($id);
-    }
-
-    header('Location: /florV2/public/index.php?rota=listar-usuarios');
-    exit;
+    
 }
+
+
+
+
 
     
 }
