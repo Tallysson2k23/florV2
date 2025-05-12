@@ -91,7 +91,7 @@ foreach ($pedidosWorkflow as $pedido) {
             background: #ffffff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.51);
             margin-top: 20px;
         }
         .agenda-list {
@@ -232,6 +232,32 @@ foreach ($pedidosWorkflow as $pedido) {
     z-index: 1000;
 }
 
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+        visibility: hidden;
+    }
+}
+
+.toast-sucesso {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #2ecc71;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+
+
     </style>
 </head>
 <body>
@@ -248,6 +274,33 @@ foreach ($pedidosWorkflow as $pedido) {
 <header>𝓕𝓵𝓸𝓻 𝓭𝓮 𝓒𝓱𝓮𝓲𝓻𝓸 </header>
 <!-- <h2>Olá, <?= htmlspecialchars($nomeUsuario) ?>!</h2> -->
 <div class="container">
+  <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 1): ?>
+    <div id="toast" class="toast-sucesso">
+        ✅ Pedido cadastrado com sucesso!
+    </div>
+    <script>
+        // Remove o parâmetro da URL após carregar
+        if (history.replaceState) {
+            const url = new URL(window.location);
+            url.searchParams.delete('sucesso');
+            history.replaceState(null, '', url.toString());
+        }
+
+        // Faz a notificação sumir após 2,5 segundos
+        setTimeout(() => {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 500); // remove do DOM
+            }
+        }, 2500);
+    </script>
+<?php endif; ?>
+
+
+
+
 <form method="get" action="index.php" style="text-align:center; margin-bottom: 20px;">
     <input type="hidden" name="rota" value="painel">
     <label for="data">
