@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - Flor de Cheiro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             margin: 0;
+            padding: 0;
             background-color: #f4f5f7;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #333;
         }
 
-        .login-container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            width: 100%;
+        .container {
             max-width: 400px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
         }
 
         h2 {
             text-align: center;
-            color: #026aa7;
+            color: #172b4d;
             font-weight: 500;
             margin-bottom: 30px;
         }
@@ -49,6 +51,7 @@
             border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 14px;
+            background-color: #fafafa;
         }
 
         button {
@@ -59,8 +62,8 @@
             border-radius: 6px;
             font-size: 15px;
             cursor: pointer;
-            transition: background-color 0.3s;
             font-weight: bold;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
@@ -79,11 +82,11 @@
 </head>
 <body>
 
-<div class="login-container">
-    <h2>Flor de Cheiro</h2>
+<div class="container">
+    <h2>Login - Flor de Cheiro</h2>
 
     <?php if (!empty($erro)) : ?>
-        <p class="error-message">❌ <?= htmlspecialchars($erro) ?></p>
+        <div class="error-message">❌ <?= htmlspecialchars($erro) ?></div>
     <?php endif; ?>
 
     <form method="POST" action="index.php?rota=login">
