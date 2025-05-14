@@ -13,25 +13,29 @@ class PedidoController
     }
 
     public function salvar()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $pedidoModel = new Pedido();
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $pedidoModel = new Pedido();
 
-            $pedidoModel->criar(
-                $_POST['nome'] ?? null,
-                $_POST['tipo'] ?? null,
-                $_POST['numero_pedido'] ?? null,
-                $_POST['quantidade'] ?? null,
-                $_POST['produto'] ?? null,
-                $_POST['complemento'] ?? null,
-                $_POST['observacao'] ?? null,
-                $_POST['data'] ?? null
-            );
+        // Criar o pedido e receber o ID retornado
+        $idPedido = $pedidoModel->criar(
+            $_POST['nome'] ?? null,
+            $_POST['tipo'] ?? null,
+            $_POST['numero_pedido'] ?? null,
+            $_POST['quantidade'] ?? null,
+            $_POST['produto'] ?? null,
+            $_POST['complemento'] ?? null,
+            $_POST['observacao'] ?? null,
+            $_POST['data'] ?? null
+        );
 
-            header('Location: /florV2/public/index.php?rota=painel&sucesso=1');
-            exit;
-        }
+        // Redirecionar para cadastrar_detalhado.php passando o ID
+        header('Location: index.php?rota=cadastrar-pedido-detalhado&id=' . $idPedido);
+
+        exit;
     }
+}
+
 
     public function listar()
     {
@@ -95,9 +99,19 @@ class PedidoController
     }
 
     public function cadastrarDetalhado()
-    {
-        require_once __DIR__ . '/../views/pedidos/cadastrar_detalhado.php';
+{
+    $idPedido = $_GET['id'] ?? null;
+    $dadosPedido = null;
+
+    if ($idPedido) {
+        $pedidoModel = new Pedido();
+        $dadosPedido = $pedidoModel->buscarPorId($idPedido);
     }
+
+    // Deixa os dados acessíveis na view
+    require_once __DIR__ . '/../views/pedidos/cadastrar_detalhado.php';
+}
+
 
     public function salvarDetalhado()
     {

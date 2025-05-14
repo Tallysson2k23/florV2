@@ -13,7 +13,7 @@ $dataHoje = date('Y-m-d');
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Pedido - Retirada</title>
+    <title>Protocolo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -73,7 +73,7 @@ $dataHoje = date('Y-m-d');
 <body>
 
 <div class="container">
-    <h2>Cadastrar de Pedido</h2>
+    <h2>Protocolo</h2>
     <form id="formPedido" action="index.php?rota=salvar-pedido-retirada" method="POST">
 
         <table>

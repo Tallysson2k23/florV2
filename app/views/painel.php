@@ -301,14 +301,14 @@ foreach ($pedidosWorkflow as $pedido) {
 
 
 
-<form method="get" action="index.php" style="text-align:center; margin-bottom: 20px;">
+<!-- <form method="get" action="index.php" style="text-align:center; margin-bottom: 20px;">
     <input type="hidden" name="rota" value="painel">
     <label for="data">
     <strong> Agenda do Dia:</strong>
 
-        <input type="date" id="data" name="data" value="<?= htmlspecialchars($dataSelecionada) ?>" onchange="this.form.submit()">
+        <input type="date" id="data" name="data" value="<?= htmlspecialchars($dataSelecionada) ?> " onchange="this.form.submit()">
     </label>
-</form>
+</form>  Agenda onde fica a data e os pedido da data selecionada.  
 
 <div class="agenda-box">
     <ul id="lista-agenda" class="agenda-list">
@@ -323,6 +323,9 @@ foreach ($pedidosWorkflow as $pedido) {
 
     <?php endif; ?>
 </div>
+-->
+
+
 
 <h2>Status dos Pedidos</h2>
 <div class="status-columns">

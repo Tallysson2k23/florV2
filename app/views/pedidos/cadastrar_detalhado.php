@@ -9,13 +9,17 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 
 $dataHoje = date('Y-m-d');
+
+$numeroPedido = $dadosPedido['numero_pedido'] ?? '';
+$tipo = $dadosPedido['tipo'] ?? 'Entrega';
+
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro Detalhado de Pedido</title>
+    <title>Protocolo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -78,7 +82,7 @@ $dataHoje = date('Y-m-d');
 <body>
 
 <div class="container">
-    <h2>Cadastrar de Pedido</h2>
+    <h2>Protocolo</h2>
     <form id="formPedido" action="index.php?rota=salvar-pedido-detalhado" method="POST">
 
         <table>
