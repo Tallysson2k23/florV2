@@ -1,7 +1,17 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+    
 }
+$nome = $dadosPedido['nome'] ?? '';
+$tipo = $dadosPedido['tipo'] ?? 'Entrega';
+$numeroPedido = $dadosPedido['numero_pedido'] ?? '';
+$quantidade = $dadosPedido['quantidade'] ?? '';
+$produto = $dadosPedido['produto'] ?? '';
+$complemento = $dadosPedido['complemento'] ?? '';
+$observacao = $dadosPedido['obs'] ?? '';
+$data = $dadosPedido['data_abertura'] ?? date('Y-m-d');
+
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: /florV2/public/index.php?rota=login');
@@ -10,8 +20,6 @@ if (!isset($_SESSION['usuario_id'])) {
 
 $dataHoje = date('Y-m-d');
 
-$numeroPedido = $dadosPedido['numero_pedido'] ?? '';
-$tipo = $dadosPedido['tipo'] ?? 'Entrega';
 
 ?>
 
@@ -88,23 +96,24 @@ $tipo = $dadosPedido['tipo'] ?? 'Entrega';
         <table>
             <tr>
                 <td><label for="numero_pedido">Nº Pedido:</label></td>
-                <td><input type="text" name="numero_pedido" id="numero_pedido" required></td>
+                <td><input type="text" name="numero_pedido" id="numero_pedido" required value="<?= htmlspecialchars($numeroPedido) ?>"></td>
                 <td><label for="tipo">Tipo:</label></td>
                 <td>
                 <select name="tipo" id="tipo" required onchange="trocarFormulario(this.value)">
-    <option value="Entrega">1-Entrega</option>
-    <option value="Retirada">2-Retirada</option>
+  <option value="Entrega" <?= $tipo === 'Entrega' ? 'selected' : '' ?>>1-Entrega</option>
+  <option value="Retirada" <?= $tipo === 'Retirada' ? 'selected' : '' ?>>2-Retirada</option>
 </select>
+
 
                 </td>
             </tr>
             <tr>
                 <td><label for="data">Data:</label></td>
-                <td colspan="3"><input type="date" name="data" id="data" value="<?= $dataHoje ?>" required></td>
+                <td colspan="3"><input type="date" name="data" id="data" value="<?= htmlspecialchars($data) ?>"></td>
             </tr>
             <tr>
                 <td><label for="remetente">Remetente:</label></td>
-                <td><input type="text" name="remetente" id="remetente"></td>
+                <td><input type="text" name="remetente" id="remetente" value="<?= htmlspecialchars($nome) ?>"></td>
                 <td><label for="telefone_remetente">Telefone:</label></td>
                 <td><input type="text" name="telefone_remetente" id="telefone_remetente"></td>
             </tr>
@@ -138,7 +147,7 @@ $tipo = $dadosPedido['tipo'] ?? 'Entrega';
             </tr>
             <tr>
                 <td><label for="produtos">Produtos:</label></td>
-                <td colspan="3"><input type="text" name="produtos" id="produtos" placeholder=""></td>
+                <td colspan="3"><input type="text" name="produtos" id="produtos" value="<?= htmlspecialchars($produto) ?>"></td>
             </tr>
             <tr>
                 <td><label for="adicionais">Adicionais:</label></td>
@@ -147,13 +156,14 @@ $tipo = $dadosPedido['tipo'] ?? 'Entrega';
         </table>
 <tr>
     <td><label for="quantidade">Quantidade:</label></td>
-    <td><input type="number" name="quantidade" id="quantidade"></td>
+    <td><input type="number" name="quantidade" id="quantidade" value="<?= htmlspecialchars($quantidade) ?>"></td>
     <td><label for="complemento">Complemento:</label></td>
-    <td><input type="text" name="complemento" id="complemento"></td>
+    <td><input type="text" name="complemento" id="complemento" value="<?= htmlspecialchars($complemento) ?>"></td>
 </tr>
 <tr>
     <td><label for="observacao">Observação:</label></td>
-    <td colspan="3"><textarea name="observacao" id="observacao"></textarea></td>
+    <td colspan="3"><textarea name="observacao" id="observacao"><?= htmlspecialchars($observacao) ?></textarea>
+</td>
 </tr>
         <div class="buttons">
     <button type="submit" id="enviarButton" class="submit">Salvar</button>

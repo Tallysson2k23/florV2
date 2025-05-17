@@ -94,12 +94,13 @@ class Pedido {
     }
 
     public function buscarPorId($id) {
-        $sql = "SELECT * FROM pedidos WHERE id = :id";
-        $stmt = $this->conn->prepare($sql); // <-- corrigido: usava $this->db
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    $sql = "SELECT * FROM pedidos WHERE id = :id LIMIT 1";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT); // define tipo INT por segurança
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 
     public function obterUltimoNumeroPedido() {
         $stmt = $this->conn->query("SELECT MAX(numero_pedido) AS max_num FROM pedidos");

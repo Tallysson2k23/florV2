@@ -95,7 +95,7 @@ if (method_exists($modelProduto, 'listar')) {
 <body>
 
 <div class="container">
-  <h2>Cadastrar Pedido</h2>
+  <h2>Cadastrar Pedido1</h2>
   <form id="formPedido" action="index.php?rota=salvar-pedido" method="POST">
     <table>
       <tr>
