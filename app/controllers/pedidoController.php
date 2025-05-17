@@ -188,5 +188,33 @@ public function cadastrarRetirada()
             exit;
         }
     }
+
+    public function historico()
+{
+    $pedidoModel = new Pedido();
+    $pedidos = $pedidoModel->buscarTodos();
+
+    require_once __DIR__ . '/../views/pedidos/historico.php';
+}
+
+public function detalhes($numeroPedido)
+{
+    if (!$numeroPedido) {
+        echo "Número do pedido inválido.";
+        return;
+    }
+
+    $pedidoModel = new Pedido();
+    $pedido = $pedidoModel->buscarPorNumero($numeroPedido);
+
+    if (!$pedido) {
+        echo "Pedido não encontrado.";
+        return;
+    }
+
+    require_once __DIR__ . '/../views/pedidos/detalhes.php';
+}
+
+
 }
 ?>

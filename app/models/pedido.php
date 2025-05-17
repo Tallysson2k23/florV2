@@ -108,6 +108,23 @@ class Pedido {
         return $result['max_num'] ?? 0;
     }
     
+    public function buscarTodos()
+{
+    $query = "SELECT * FROM pedidos ORDER BY data_abertura DESC";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function buscarPorNumero($numeroPedido)
+{
+    $query = "SELECT * FROM pedidos WHERE numero_pedido = :numero";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':numero', $numeroPedido);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
     
 }
 ?>

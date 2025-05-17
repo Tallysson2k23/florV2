@@ -385,6 +385,10 @@ foreach ($pedidosWorkflow as $pedido) {
         <button onclick="location.href='index.php?rota=painel'">Acessar</button>
     </div>
 
+    <div class="card">
+        <h3>Historico</h3>
+        <button onclick="location.href='index.php?rota=historico-pedidos'">Acessar</button>
+    </div>
 </div>
 
 <div class="logout">

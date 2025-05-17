@@ -136,5 +136,18 @@ case 'cadastrar-retirada':
         echo "Página não encontrada.";
         break;
             
+
+        case 'historico-pedidos':
+    require_once __DIR__ . '/../app/controllers/PedidoController.php';
+    $controller = new PedidoController();
+    $controller->historico();
+    break;
+
+case 'detalhes-pedido':
+    require_once __DIR__ . '/../app/controllers/PedidoController.php';
+    $controller = new PedidoController();
+    $controller->detalhes($_GET['numero_pedido'] ?? null);
+    break;
+
 }
 ?>
