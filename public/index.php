@@ -102,16 +102,29 @@ switch ($rota) {
             $controller = new PedidoController();
             $controller->cadastrarDetalhado();
             break;
+         //---------------------------------------------------------------
+            case 'cadastrar-detalhado':
+    require_once __DIR__ . '/../app/controllers/PedidoController.php';
+    $controller = new PedidoController();
+    $controller->cadastrarDetalhado(); // novo método
+    break;
+
+case 'cadastrar-retirada':
+    require_once __DIR__ . '/../app/controllers/PedidoController.php';
+    $controller = new PedidoController();
+    $controller->cadastrarRetirada(); // novo método
+    break;
+    //------------------------------
             
-        case 'salvar-pedido-detalhado':
-            $controller = new PedidoController();
-            $controller->salvarDetalhado();
-            break;
+       // case 'salvar-pedido-detalhado':
+         //   $controller = new PedidoController();
+           // $controller->salvarDetalhado();
+            //break;
            
-            case 'cadastrar-pedido-retirada':
-                $controller = new PedidoController();
-                $controller->cadastrarRetirada();
-                break;
+            //case 'cadastrar-pedido-retirada':
+              //  $controller = new PedidoController();
+                //$controller->cadastrarRetirada();
+                //break;
             
             case 'salvar-pedido-retirada':
                 $controller = new PedidoController();

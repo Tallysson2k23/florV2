@@ -35,20 +35,28 @@ class PedidoController
         }
     }
 
-    
-public function cadastrarDetalhado()
+    //-----------------------------------------------------
+    public function cadastrarDetalhado()
 {
-    session_start();
-
-    $idPedido = $_GET['id'] ?? null;
-
-    if ($idPedido) {
-        $pedidoModel = new Pedido();
-        $_SESSION['dados_pedido'] = $pedidoModel->buscarPorId($idPedido);
-    }
+    $pedidoModel = new Pedido();
+    $ultimoNumero = $pedidoModel->obterUltimoNumeroPedido();
+    $proximoNumeroPedido = $ultimoNumero + 1;
 
     require_once __DIR__ . '/../views/pedidos/cadastrar_detalhado.php';
 }
+//public function cadastrarDetalhado()
+//{
+  //  session_start();
+
+    //$idPedido = $_GET['id'] ?? null;
+
+    //if ($idPedido) {
+      //  $pedidoModel = new Pedido();
+       /// $_SESSION['dados_pedido'] = $pedidoModel->buscarPorId($idPedido);
+    //}
+
+    //require_once __DIR__ . '/../views/pedidos/cadastrar_detalhado.php';
+//}
 
 
 
@@ -142,11 +150,20 @@ public function cadastrarDetalhado()
         $model = new Pedido();
         return $model->obterUltimoNumeroPedido() + 1;
     }
+    //--------------------------------
 
-    public function cadastrarRetirada()
-    {
-        require_once __DIR__ . '/../views/pedidos/cadastrar_retirada.php';
-    }
+public function cadastrarRetirada()
+{
+    $pedidoModel = new Pedido();
+    $ultimoNumero = $pedidoModel->obterUltimoNumeroPedido();
+    $proximoNumeroPedido = $ultimoNumero + 1;
+
+    require_once __DIR__ . '/../views/pedidos/cadastrar_retirada.php';
+}
+    //public function cadastrarRetirada()
+   // {
+      //  require_once __DIR__ . '/../views/pedidos/cadastrar_retirada.php';
+    //}
 
     public function salvarRetirada()
     {

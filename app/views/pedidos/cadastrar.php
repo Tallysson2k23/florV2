@@ -95,8 +95,8 @@ if (method_exists($modelProduto, 'listar')) {
 <body>
 
 <div class="container">
-  <h2>Cadastrar Pedido1</h2>
-  <form id="formPedido" action="index.php?rota=salvar-pedido" method="POST">
+  <h2>Cadastrar Pedido</h2>
+  <form id="formPedido" method="POST">
     <table>
       <tr>
         <td><label for="nome">Nome:</label></td>
@@ -161,13 +161,27 @@ if (method_exists($modelProduto, 'listar')) {
     });
 
     btnEnviar.addEventListener("click", function (e) {
+      e.preventDefault(); // Impede o envio imediato do form
+
       const confirmarEnvio = confirm("Tem certeza que deseja enviar este pedido?");
-      if (!confirmarEnvio) {
-        e.preventDefault();
+      if (!confirmarEnvio) return;
+
+      const tipo = document.getElementById("tipo").value;
+
+      if (tipo === "Entrega") {
+        form.action = "index.php?rota=cadastrar-detalhado";
+      } else if (tipo === "Retirada") {
+        form.action = "index.php?rota=cadastrar-retirada";
+      } else {
+        alert("Tipo de pedido inválido.");
+        return;
       }
+
+      form.submit(); // Envia o formulário para o destino definido
     });
   });
 </script>
+
 
 </body>
 </html>
